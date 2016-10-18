@@ -6,16 +6,9 @@
 package cbd_nutribd;
 
 import DB.RelationalDB;
-import Data.Prato;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -62,14 +55,6 @@ public class PratoSearch extends javax.swing.JFrame {
         });
         listPanel.setViewportView(list);
 
-        nomeTF.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                nomeTFInputMethodTextChanged(evt);
-            }
-        });
-
         jLabel1.setText("Nome:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -109,26 +94,13 @@ public class PratoSearch extends javax.swing.JFrame {
         RelationalDB relDB = new RelationalDB();
         ResultSet rs;
         try {
-            DefaultListModel listModel = relDB.selectPratos("SELECT * FROM Pratos");
+            DefaultListModel listModel = relDB.selectPratos("SELECT * FROM Pratos WHERE Nome LIKE '%" + nomeTF.getText() + "%'");
             list.setModel(listModel);
         
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_searchBtnMouseClicked
-
-    private void nomeTFInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_nomeTFInputMethodTextChanged
-        
-        RelationalDB relDB = new RelationalDB();
-        ResultSet rs;
-        try {
-            DefaultListModel listModel = relDB.selectPratos("SELECT * FROM Pratos WHERE Nome LIKE %" + nomeTF.getText() + "%");
-            list.setModel(listModel);
-        
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }//GEN-LAST:event_nomeTFInputMethodTextChanged
 
     /**
      * @param args the command line arguments
