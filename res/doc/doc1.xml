@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<prato>
+	<id>1</id>
+	<preparacao>Retire as pontas à curgete e lave muito bem, corte em pedaços grosseiros e junte no wok com um fio de azeite, a cebola laminada, os dentes picados e salteie tudo muito bem.
+
+Quando perceber que a curgete já está cozinha, tempere com sal, pimenta e as folhas de hortelã e transfira para uma liquidificadora ou robot de cozinha. Triture tudo muito bem, ou como preferir se gostar de uma textura mais grosseira. Se achar que a curgete está muito espessa, deite um pouco de água morna.</preparacao>
+	<Cozinha>Contemporânea</Cozinha>
+	<Dificuldade>Fácil</Dificuldade>
+	<Tempo>Rápido</Tempo>
+	<Doses>2</Doses>
+</prato>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<prato>
+	<id>2</id>
+	<preparacao>Junte todos os ingredientes, à exceção do queijo e dos coentros, numa caçarola grande. Leve ao lume, em fogo alto até levantar fervura. Assim que começar a ferver, reduza um pouco o lume, e conte dez minutos. Mexa e misture enquanto cozinha, ocasionalmente nos primeiros minutos e depois mais frequente enquanto engrossa e começa a pagar ao fundo da panela.
+
+Quando os dez minutos acabarem, a massa deve estar macia e o molho deverá ter engrossado um pouco. Se a massa ainda não estiver cozida, continue a cozinhar por mais um minuto. Retifique os temperos se necessário e retire do lume.
+
+Rale um pouco de queijo por cima da massa e envolva delicadamente. Deixe descansar por dois ou três minutos - nesta fase a massa vai parecer um pouco caldosa ainda, mas vai engrossar enquanto descansa.
+
+Divida pelos pratos de servir e polvilhe com os coentros.</preparacao>
+	<Cozinha>Contemporânea</Cozinha>
+	<Dificuldade>Fácil</Dificuldade>
+	<Tempo>Rápido</Tempo>
+	<Doses>4</Doses>
+</prato>
