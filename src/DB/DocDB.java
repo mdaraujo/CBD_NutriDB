@@ -5,12 +5,18 @@
  */
 package DB;
 
+import Data.Prato;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -43,7 +49,7 @@ public class DocDB {
         return dbConnection;
     }
     
-    public void insertDoc(Connection conn,int id,String doc) {
+    public void insertDoc(Connection conn, String doc) {
         int len;
         String query;
         PreparedStatement pstmt;
@@ -63,5 +69,91 @@ public class DocDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public Prato getPrato(int id) throws SQLException {
+        
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        Prato prato = null;
+        
+        try {
+            dbConnection = getDBConnection();
+            String query = "SELECT \n" +
+                            "Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') as cozinha,\n" +
+                            "Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') as dif,\n" +
+                            "Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') as tempo,\n" +
+                            "Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') as doses\n" +
+                            "FROM Prato_Doc WHERE ID = ?";
+            st = dbConnection.prepareStatement(query);
+            st.setInt(1,id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                
+                String cozinha = rs.getString("cozinha");
+                String dificuldade = rs.getString("dif");
+                String tempo = rs.getString("tempo");
+                int doses = rs.getInt("doses");
+                
+                prato = new Prato(id, cozinha, dificuldade, tempo, doses);
+            }        
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        } finally {
+            
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        
+        return prato;
+    }
+    
+    public List selectPratos(String selectSQL) throws SQLException {
+
+        Connection dbConnection = null;
+        Statement st = null;
+        List<Prato> pratos = new ArrayList<>();
+
+        try {
+            
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = st.executeQuery(selectSQL);
+            
+            
+            while (rs.next()) {
+
+                int id = rs.getInt("id");
+                String cozinha = rs.getString("cozinha");
+                String dificuldade = rs.getString("dif");
+                String tempo = rs.getString("tempo");
+                int doses = rs.getInt("doses");
+                
+                Prato prato = new Prato(id, cozinha, dificuldade, tempo, doses);
+                pratos.add(prato);
+            }
+            
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        return pratos;
     }
 }

@@ -209,7 +209,7 @@ public class InsertPlate extends javax.swing.JFrame {
         Prato plate = new Prato(titulo);
         plate.setDescricao(descricao);
         plate.setImagem(imagem);
-        plate.setIngredientes(ingredientes);
+        plate.setAlimentos(ingredientes);
         plate.setQuantidades(quantidades);
         GraphDB graph = new GraphDB();
         

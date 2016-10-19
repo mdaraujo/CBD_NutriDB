@@ -15,21 +15,53 @@ import java.util.List;
 public class Prato {
     
     private int ID;
-    private String titulo;
-    private List<String> ingredientes = new ArrayList<>();
-    private List<String> quantidades = new ArrayList<>();
+    private String nome;
     private String descricao;
+    
+    private List<String> alimentos = new ArrayList<>();
+    private List<String> quantidades = new ArrayList<>();
+    
+    private String cozinha;
+    private String dificuldade;
+    private String tempo;
+    private int doses;
+    
     private String imagem;
 
     public Prato(String titulo) {
-        this.titulo = titulo;
+        this.nome = titulo;
     }
     
     public Prato(int ID, String titulo, String descricao)
     {
         this.ID = ID;
-        this.titulo = titulo;
+        this.nome = titulo;
         this.descricao = descricao;
+    }
+
+    public Prato(int ID, String cozinha, String dificuldade, String tempo, int doses) {
+        this.ID = ID;
+        this.cozinha = cozinha;
+        this.dificuldade = dificuldade;
+        this.tempo = tempo;
+        this.doses = doses;
+    }
+
+    public Prato(int ID, String nome, String descricao, String cozinha, String dificuldade, String tempo, int doses) {
+        this.ID = ID;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.cozinha = cozinha;
+        this.dificuldade = dificuldade;
+        this.tempo = tempo;
+        this.doses = doses;
+    }
+    
+    
+    
+    @Override
+    public String toString(){
+        return String.format("%-3d %-70s %-15s %-11s %-8s %-5d", ID, nome, cozinha, dificuldade, tempo, doses);
     }
     
     public String getDescricao() {
@@ -48,38 +80,67 @@ public class Prato {
         this.imagem = imagem;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNome() {
+        return nome;
     }
 
-    public List<String> getIngredientes() {
-        return ingredientes;
+    public List<String> getAlimentos() {
+        return alimentos;
     }
 
     public List<String> getQuantidades() {
-        return ingredientes;
+        return alimentos;
     }
     
-    @Override
-    public String toString(){
-        StringBuilder sb=new StringBuilder();
-        
-        sb.append("Titulo: ");
-        sb.append(titulo);
-        sb.append("\n");
-        
-        return sb.toString();
-    }
-
-    public void setIngredientes(List<String> ingredientes) {
-        this.ingredientes=ingredientes;
+    public void setAlimentos(List<String> alimentos) {
+        this.alimentos = alimentos;
     }
 
     public void setQuantidades(List<String> quantidades) {
-        this.quantidades=quantidades;
+        this.quantidades = quantidades;
+    }
+    
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getCozinha() {
+        return cozinha;
+    }
+
+    public void setCozinha(String cozinha) {
+        this.cozinha = cozinha;
+    }
+
+    public String getDificuldade() {
+        return dificuldade;
+    }
+
+    public void setDificuldade(String dificuldade) {
+        this.dificuldade = dificuldade;
+    }
+
+    public String getTempo() {
+        return tempo;
+    }
+
+    public void setTempo(String tempo) {
+        this.tempo = tempo;
+    }
+
+    public int getDoses() {
+        return doses;
+    }
+
+    public void setDoses(int doses) {
+        this.doses = doses;
     }
 }

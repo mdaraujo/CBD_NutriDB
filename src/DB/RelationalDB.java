@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 
 /**
@@ -34,7 +36,7 @@ public class RelationalDB {
             dbConnection = getDBConnection();
             String query = "select ID from "+Contract.PratoTable+" where Nome=?";
             st = dbConnection.prepareStatement(query);
-            st.setString(1,prato.getTitulo());
+            st.setString(1,prato.getNome());
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -109,7 +111,7 @@ public class RelationalDB {
             dbConnection = getDBConnection();
             String query = "insert into "+Contract.PratoTable+" (Nome,Descricao) values(?,?)";
             st = dbConnection.prepareStatement(query);
-            st.setString(1, prato.getTitulo());
+            st.setString(1, prato.getNome());
             st.setString(2, prato.getDescricao());
             st.executeUpdate();
             return true;
@@ -192,7 +194,44 @@ public class RelationalDB {
 
     }
     
-    public DefaultListModel selectPratos(String selectSQL) throws SQLException {
+    public Prato getPrato(int id) throws SQLException {
+        
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        Prato prato = null;
+        
+        try {
+            dbConnection = getDBConnection();
+            String query = "SELECT * FROM Pratos WHERE ID = ?";
+            st = dbConnection.prepareStatement(query);
+            st.setInt(1,id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                
+                String nome = rs.getString("Nome");
+                String descricao = rs.getString("Descricao");
+                
+                prato = new Prato(id, nome, descricao);
+            }        
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        } finally {
+            
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        
+        return prato;
+    }
+    
+    public DefaultListModel selectPratosLM(String selectSQL) throws SQLException {
 
         Connection dbConnection = null;
         Statement st = null;
@@ -231,6 +270,46 @@ public class RelationalDB {
             }
         }
         return listModel;
+    }
+    
+    public List selectPratos(String selectSQL) throws SQLException {
+
+        Connection dbConnection = null;
+        Statement st = null;
+        List<Prato> pratos = new ArrayList<>();
+
+        try {
+            
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = st.executeQuery(selectSQL);
+            
+            
+            while (rs.next()) {
+
+                int id = rs.getInt("ID");
+                String nome = rs.getString("Nome");
+                String desc = rs.getString("Descricao");
+
+                Prato prato = new Prato(id, nome, desc);
+                pratos.add(prato);
+            }
+            
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        return pratos;
     }
     
     public Connection getDBConnection() {

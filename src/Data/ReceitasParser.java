@@ -66,7 +66,7 @@ public class ReceitasParser {
             System.out.println("Ficheiro não encontrado");
         }
         
-        prato.setIngredientes(ingredientes);
+        prato.setAlimentos(ingredientes);
         prato.setQuantidades(quantidades);
         
     }

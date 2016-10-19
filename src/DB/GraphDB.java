@@ -49,7 +49,7 @@ public class GraphDB {
 
         List<String> inserts = new ArrayList<>();
 
-        List<String> ingredientes = prato.getIngredientes();
+        List<String> ingredientes = prato.getAlimentos();
         List<String> quantidades = prato.getQuantidades();
 
         int idIngrediente = 0;

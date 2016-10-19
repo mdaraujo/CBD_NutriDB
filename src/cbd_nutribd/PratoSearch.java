@@ -5,9 +5,18 @@
  */
 package cbd_nutribd;
 
+import DB.DocDB;
 import DB.RelationalDB;
+import Data.Prato;
+import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 
 /**
@@ -21,6 +30,10 @@ public class PratoSearch extends javax.swing.JFrame {
      */
     public PratoSearch() {
         initComponents();
+        
+        list.setFont( new Font("monospaced", Font.PLAIN, 12) );
+        
+        searchBtn.doClick();
     }
 
     /**
@@ -35,27 +48,51 @@ public class PratoSearch extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
         listPanel = new javax.swing.JScrollPane();
         list = new javax.swing.JList<>();
-        nomeTF = new javax.swing.JTextField();
+        nomeInput = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        dosesInput = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        difInput = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        cozinhaInput = new javax.swing.JComboBox<>();
+        tempoInput = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         searchBtn.setText("Search");
         searchBtn.setToolTipText("");
-        searchBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchBtnMouseClicked(evt);
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
             }
         });
 
-        list.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMouseClicked(evt);
+            }
         });
         listPanel.setViewportView(list);
 
         jLabel1.setText("Nome:");
+
+        dosesInput.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
+
+        jLabel2.setText("Doses");
+
+        difInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "*", "Fácil", "Médio", "Difícil" }));
+
+        jLabel3.setText("Dificuldade");
+
+        jLabel4.setText("Tipo de Cozinha");
+
+        cozinhaInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "*", "Contemporânea" }));
+
+        tempoInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "*", "Lento", "Médio", "Rápido" }));
+
+        jLabel5.setText("Tempo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,11 +103,29 @@ public class PratoSearch extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 367, Short.MAX_VALUE)
-                .addComponent(searchBtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cozinhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dosesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(difInput, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
@@ -79,29 +134,114 @@ public class PratoSearch extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nomeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
-                .addComponent(listPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn)
+                    .addComponent(jLabel4)
+                    .addComponent(cozinhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dosesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(difInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(listPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBtnMouseClicked
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        
+        DefaultListModel listModel = new DefaultListModel();
+        String header = String.format("%-3s %-70s %-15s %-11s %-8s %-5s", "ID", "NOME", "COZINHA", "DIFICULDADE", "TEMPO", "DOSES");
+        listModel.addElement(header);
+        
+        List<Prato> pratosInDocs = getListInDocs();
+        List<Prato> pratosInRel = getListInRelational();
+        
+        for (int i = 0; i < pratosInDocs.size(); i++) {
+            for (int j = 0; j < pratosInRel.size(); j++) {
+                if (pratosInDocs.get(i).getID() == pratosInRel.get(j).getID()) {
+                    Prato prato = new Prato(pratosInRel.get(j).getID(), pratosInRel.get(j).getNome(), 
+                            pratosInRel.get(j).getDescricao(), pratosInDocs.get(i).getCozinha(), 
+                            pratosInDocs.get(i).getDificuldade(), pratosInDocs.get(i).getTempo(), 
+                            pratosInDocs.get(i).getDoses());
+                    
+                    listModel.addElement(prato.toString());
+                }
+            }
+        }
+        
+        list.setModel(listModel);
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
+        
+        if (evt.getClickCount() == 2) {
+            int i = -1;
+            String p = list.getSelectedValue();
+            
+            Matcher matcher = Pattern.compile("\\d+").matcher(p);
+            if (matcher.find())
+                i = Integer.valueOf(matcher.group());
+            
+            System.out.println(i);
+        }
+    }//GEN-LAST:event_listMouseClicked
+
+    public List<Prato> getListInDocs()
+    {
+        String query = "SELECT\n" +
+                        "Doc.value('(/prato//id/node())[1]', 'nvarchar(max)') as id,\n" +
+                        "Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') as cozinha,\n" +
+                        "Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') as dif,\n" +
+                        "Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') as tempo,\n" +
+                        "Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') as doses\n" +
+                        "FROM Prato_Doc WHERE 1=1 ";
+        
+        if (!cozinhaInput.getSelectedItem().toString().equals("*")) {
+            query += "AND Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') = '" + cozinhaInput.getSelectedItem().toString() + "' ";
+        }
+        if (!difInput.getSelectedItem().toString().equals("*")) {
+            query += "AND Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') = '" + difInput.getSelectedItem().toString() + "' ";
+        }
+        if (!tempoInput.getSelectedItem().toString().equals("*")) {
+            query += "AND Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') = '" + tempoInput.getSelectedItem().toString() + "' ";
+        }
+        if (!dosesInput.getValue().toString().equals("0")) {
+            query += "AND Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') = '" + dosesInput.getValue().toString() + "' ";
+        }
+        
+        DocDB docDB = new DocDB();
+        List<Prato> pratos = new ArrayList<>();
+        try {
+            pratos = docDB.selectPratos(query);
+        } catch (SQLException e) {
+             System.out.println(e.getMessage());
+        }
+        
+        return pratos;
+    }
+    
+    public List<Prato> getListInRelational()
+    {
+        String query = "SELECT * FROM Pratos WHERE Nome LIKE '%" + nomeInput.getText() + "%'";
         
         RelationalDB relDB = new RelationalDB();
-        ResultSet rs;
+        List<Prato> pratos = new ArrayList<>();
         try {
-            DefaultListModel listModel = relDB.selectPratos("SELECT * FROM Pratos WHERE Nome LIKE '%" + nomeTF.getText() + "%'");
-            list.setModel(listModel);
-        
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            pratos = relDB.selectPratos(query);
+        } catch (SQLException e) {
+             System.out.println(e.getMessage());
         }
-    }//GEN-LAST:event_searchBtnMouseClicked
-
+        
+        return pratos;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -138,10 +278,18 @@ public class PratoSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cozinhaInput;
+    private javax.swing.JComboBox<String> difInput;
+    private javax.swing.JSpinner dosesInput;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JList<String> list;
     private javax.swing.JScrollPane listPanel;
-    private javax.swing.JTextField nomeTF;
+    private javax.swing.JTextField nomeInput;
     private javax.swing.JButton searchBtn;
+    private javax.swing.JComboBox<String> tempoInput;
     // End of variables declaration//GEN-END:variables
 }
