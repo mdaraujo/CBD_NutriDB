@@ -22,9 +22,9 @@ import java.sql.Statement;
 public class ImgDB {
     
     private static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static final String DB_CONNECTION = "jdbc:sqlserver://ANDREIA\\CBDINSTANCE;databaseName="+Contract.KEYVALUEDB;
+    private static final String DB_CONNECTION = "jdbc:sqlserver://DESKTOP-8HJ3B7P:1433;databaseName=NutriDB_KeyValue";
     private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "passwords";
+    private static final String DB_PASSWORD = "qwer";
     
     public Connection getDBConnection() {
         Connection conn = null;

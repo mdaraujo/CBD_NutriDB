@@ -33,28 +33,29 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="nomeInput" min="-2" pref="409" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel4" pref="98" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="cozinhaInput" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="nomeInput" min="-2" pref="432" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="dosesInput" min="-2" pref="49" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" pref="72" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="dosesInput" min="-2" pref="47" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jLabel3" min="-2" pref="66" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="difInput" min="-2" pref="67" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" pref="55" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" pref="41" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tempoInput" min="-2" pref="80" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" pref="94" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cozinhaInput" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
               <Component id="searchBtn" min="-2" pref="87" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
           </Group>
@@ -80,8 +81,8 @@
                   <Component id="tempoInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="37" max="32767" attributes="0"/>
-              <Component id="listPanel" min="-2" pref="335" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="listPanel" pref="368" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -129,7 +130,7 @@
     <Component class="javax.swing.JSpinner" name="dosesInput">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="0" maximum="9" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+          <SpinnerModel initial="0" maximum="12" minimum="0" numberType="java.lang.Integer" stepSize="2" type="number"/>
         </Property>
       </Properties>
     </Component>
@@ -166,9 +167,22 @@
     <Component class="javax.swing.JComboBox" name="cozinhaInput">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
+          <StringArray count="15">
             <StringItem index="0" value="*"/>
             <StringItem index="1" value="Contempor&#xe2;nea"/>
+            <StringItem index="2" value="Internacional"/>
+            <StringItem index="3" value="Contempor&#xe2;nea Fus&#xe3;o"/>
+            <StringItem index="4" value="Vegetariana"/>
+            <StringItem index="5" value="Internacional Contempor&#xe2;nea"/>
+            <StringItem index="6" value="Portuguesa Tradicional"/>
+            <StringItem index="7" value="Brasileira Vegetariana"/>
+            <StringItem index="8" value="Japonesa"/>
+            <StringItem index="9" value="Su&#xed;&#xe7;a"/>
+            <StringItem index="10" value="Contempor&#xe2;nea Saud&#xe1;vel"/>
+            <StringItem index="11" value="Italiana"/>
+            <StringItem index="12" value="Mediterr&#xe2;nea"/>
+            <StringItem index="13" value="Brit&#xe2;nica"/>
+            <StringItem index="14" value="Francesa Contempor&#xe2;nea"/>
           </StringArray>
         </Property>
       </Properties>

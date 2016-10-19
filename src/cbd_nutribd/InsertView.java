@@ -80,25 +80,25 @@ public class InsertView extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         ImgDB db = new ImgDB();
-        Connection conn = db.getDBConnection();
         for (int i=1;i<22;i++) {
-            System.out.println("Insert " + i + " image.");
+            System.out.println("Inserting Image" + i);
             try {
                 db.insertImage("res\\img\\" + i + ".jpg");
-            } catch (SQLException ex) {
-                Logger.getLogger(InsertView.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(InsertView.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException | FileNotFoundException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         DocDB db = new DocDB();
-        Connection conn = db.getDBConnection();
-        for (int i=1;i<6;i++) {
+        for (int i=1;i<22;i++) {
             System.out.println("Inserting Document" + i);
-            db.insertDoc(conn, "doc" + i);
+            try {
+                db.insertDoc("doc" + i);
+            } catch (SQLException ex) {
+                 System.out.println(ex.getMessage());
+            }
         }
     }//GEN-LAST:event_jButton2MouseClicked
 

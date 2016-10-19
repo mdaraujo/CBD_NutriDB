@@ -5,10 +5,11 @@
         <group>
             <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/DB/ImgDB.java</file>
             <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/Data/Prato.java</file>
-            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/cbd_nutribd/InsertView.java</file>
-            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/DB/DocDB.java</file>
+            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/cbd_nutribd/InsertPlate.java</file>
+            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/cbd_nutribd/ButtonImage.java</file>
             <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/cbd_nutribd/PratoSearch.java</file>
-            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/DB/RelationalDB.java</file>
+            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/DB/GraphDB.java</file>
+            <file>file:/C:/Users/Miguel/Documents/NetBeansProjects/CBD_NutriDB/src/cbd_nutribd/InsertDoc.java</file>
         </group>
     </open-files>
 </project-private>

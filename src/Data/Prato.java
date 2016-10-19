@@ -61,7 +61,7 @@ public class Prato {
     
     @Override
     public String toString(){
-        return String.format("%-3d %-70s %-15s %-11s %-8s %-5d", ID, nome, cozinha, dificuldade, tempo, doses);
+        return String.format("%-3d %-70s %-11s %-8s %-5d %-20s", ID, nome, dificuldade, tempo, doses, cozinha);
     }
     
     public String getDescricao() {

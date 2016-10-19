@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultListModel;
 
 /**
  *
@@ -49,25 +48,37 @@ public class DocDB {
         return dbConnection;
     }
     
-    public void insertDoc(Connection conn, String doc) {
+    public void insertDoc(String doc) throws SQLException {
         int len;
-        String query;
-        PreparedStatement pstmt;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
                  
         try {
+            dbConnection = getDBConnection();
+            
             File file = new File("res\\doc\\" + doc + ".xml");
             FileInputStream fis = new FileInputStream(file);
             len = (int)file.length();
- 
-            query = ("insert into Prato_Doc VALUES(?)");
-            pstmt = conn.prepareStatement(query);
+            
+            String query = ("insert into Prato_Doc VALUES(?)");
+            st = dbConnection.prepareStatement(query);
    
             // Method used to insert a stream of bytes
-            pstmt.setBinaryStream(1, fis, len); 
-            pstmt.executeUpdate();
+            st.setBinaryStream(1, fis, len); 
+            st.executeUpdate();
  
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            
+        } finally {
+            
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
         }
     }
     
