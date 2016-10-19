@@ -4,6 +4,9 @@ package cbd_nutribd;
 import DB.ImgDB;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -20,7 +23,7 @@ import javax.swing.JOptionPane;
  * @author Andreia Machado
  */
 public class ButtonImage extends javax.swing.JFrame {
-    private int id=-1;
+    private int id=0;
     /**
      * Creates new form ButtonImage
      */
@@ -94,7 +97,12 @@ public class ButtonImage extends javax.swing.JFrame {
         id++;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle(Integer.toString(id));
-        ImageIcon icon = showImage();
+        ImageIcon icon = null;
+        try {
+            icon = showImage();
+        } catch (SQLException ex) {
+            Logger.getLogger(ButtonImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jLabel1.setIcon(icon);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -145,10 +153,10 @@ public class ButtonImage extends javax.swing.JFrame {
         });
     }
     
-    private ImageIcon showImage() {
+    private ImageIcon showImage() throws SQLException {
         ImgDB kv = new ImgDB();
         Connection conn = kv.getDBConnection();
-        byte[] img = kv.getImage(conn,id);
+        byte[] img = kv.getImage(id);
         if (img == null) {
             JOptionPane.showMessageDialog(this, "This plate not have image!");
             return null;
