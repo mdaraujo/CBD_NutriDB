@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <prato>
 	<id>1</id>
-	<preparacao>Retire as pontas à curgete e lave muito bem, corte em pedaços grosseiros e junte no wok com um fio de azeite, a cebola laminada, os dentes picados e salteie tudo muito bem.
+	<preparacao>Para a Massa: Peneirar a farinha com o sal. Juntar o açúcar com o azeite e o fermento e diluir tudo bem na água. Adicionar a água aos poucos na farinha amassando bem. Quando estiver bem amassado colocar num recipiente polvilhado com farinha e deixar repousar tapado durante uma hora até a massa duplicar o tamanho.
 
-Quando perceber que a curgete já está cozinha, tempere com sal, pimenta e as folhas de hortelã e transfira para uma liquidificadora ou robot de cozinha. Triture tudo muito bem, ou como preferir se gostar de uma textura mais grosseira. Se achar que a curgete está muito espessa, deite um pouco de água morna.</preparacao>
+Para o Molho de Tomate: Colocar a panela ao lume com azeite e os dentes de alho e deixar fritar ate estarem dourados. Adicionar o manjericão e o tomate e com a ajuda de uma colher esmagar tudo bem. Temperar e deixar refugar um pouco. Retirar do lume e passar por um coador esmagando tudo bem. Os alhos e o manjericão irão ficar no coador. Ferver novamente até ter a consistência desejada.
+
+Para Montar a Pizza: Abrir a massa numa superfície polvilhada com farinha. Cobrir a base com o molho de tomate, tendo atenção para não exagerar na quantidade. Dispor o queijo ralado e os restantes ingredientes. Levar ao forno.</preparacao>
 	<Cozinha>Contemporânea</Cozinha>
-	<Dificuldade>Fácil</Dificuldade>
-	<Tempo>Rápido</Tempo>
-	<Doses>2</Doses>
+	<Dificuldade>Médio</Dificuldade>
+	<Tempo>Médio</Tempo>
+	<Doses>4</Doses>
 </prato>

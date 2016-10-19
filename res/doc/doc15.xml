@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<prato>
+	<id>15</id>
+	<preparacao>1. Lave bem o arroz, em várias águas, até que água resultante fique translúcida.
+
+2. Coloque o arroz num tacho com a mesma quantidade de água (se usar duas chávenas de arroz, deverá adicionar duas chávenas de água) e uma folha de alga. Quando levantar fervura, reduza o lume para o mínimo, tape o tacho e deixe cozinhar durante 10 minutos.
+
+3. Desligue o lume e espere mais 10 minutos, sem levantar a tampa do tacho. Passado esse tempo, passe o arroz para um tabuleiro e espere que amorne.
+
+4. Quando o arroz estiver morno, tempere-o com o vinagre de arroz, o saquê, o açúcar e o sal e reserve.
+
+5. Cubra uma esteira de sushi com película aderente e coloque, por cima, à medida das suas necessidades, as restantes algasPe. De seguida cubra-a com arroz, molhando de vez em quando os dedos em água fria para que o arroz não grude nas mãos. Deixe cerca de dois centímetros da alga sem arroz, na aresta oposta àquela em que começará a enrolar o rolo. A seguir ao arroz, coloque o carapau e o pepino cortados em tiras longas e enrole, fazendo pressão para que o role se molde.
+
+6. Molhe uma faca em água para cortar o rolo em pequenos pedaços. Sirva o sushi de pepino e carapau com wasabi e molho de soja.</preparacao>
+	<Cozinha>Japonesa</Cozinha>
+	<Dificuldade>Difícil</Dificuladade>
+	<Tempo>Lento</Tempo>
+	<Dose>4</Dose>
+</prato>

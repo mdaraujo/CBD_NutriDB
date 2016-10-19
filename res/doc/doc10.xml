@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<prato>
+	<id>10</id>
+	<preparacao>Comece por arranjar os legumes para cozer.
+
+Coloque água a ferver e dissolva a pasta de miso juntamente com um pouco de molho de soja. Passe por um passador para retirar as impurezas da pasta.
+
+Coloque os legumes dentro do caldo e deixe cozer.
+
+Entretanto, marque as postas de salmão numa frigideira bem quente, coloque no forno de seguida até estarem no ponto que mais gosta.</preparacao>
+	<Cozinha>Contemporânea Fusão</Cozinha>
+	<Dificuldade>Médio</Dificuladade>
+	<Tempo>Médio</Tempo>
+	<Dose>2</Dose>
+</prato>

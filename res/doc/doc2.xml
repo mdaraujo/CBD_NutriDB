@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <prato>
 	<id>2</id>
-	<preparacao>Junte todos os ingredientes, à exceção do queijo e dos coentros, numa caçarola grande. Leve ao lume, em fogo alto até levantar fervura. Assim que começar a ferver, reduza um pouco o lume, e conte dez minutos. Mexa e misture enquanto cozinha, ocasionalmente nos primeiros minutos e depois mais frequente enquanto engrossa e começa a pagar ao fundo da panela.
+	<preparacao>Retire as pontas à curgete e lave muito bem, corte em pedaços grosseiros e junte no wok com um fio de azeite, a cebola laminada, os dentes picados e salteie tudo muito bem.
 
-Quando os dez minutos acabarem, a massa deve estar macia e o molho deverá ter engrossado um pouco. Se a massa ainda não estiver cozida, continue a cozinhar por mais um minuto. Retifique os temperos se necessário e retire do lume.
-
-Rale um pouco de queijo por cima da massa e envolva delicadamente. Deixe descansar por dois ou três minutos - nesta fase a massa vai parecer um pouco caldosa ainda, mas vai engrossar enquanto descansa.
-
-Divida pelos pratos de servir e polvilhe com os coentros.</preparacao>
+Quando perceber que a curgete já está cozinha, tempere com sal, pimenta e as folhas de hortelã e transfira para uma liquidificadora ou robot de cozinha. Triture tudo muito bem, ou como preferir se gostar de uma textura mais grosseira. Se achar que a curgete está muito espessa, deite um pouco de água morna.</preparacao>
 	<Cozinha>Contemporânea</Cozinha>
 	<Dificuldade>Fácil</Dificuldade>
 	<Tempo>Rápido</Tempo>
-	<Doses>4</Doses>
+	<Doses>2</Doses>
 </prato>
