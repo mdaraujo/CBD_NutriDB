@@ -7,6 +7,7 @@ package DB;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,9 +22,9 @@ import java.sql.Statement;
 public class ImgDB {
     
     private static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static final String DB_CONNECTION = "jdbc:sqlserver://DESKTOP-8HJ3B7P:1433;databaseName=NutriDB_KeyValue";
+    private static final String DB_CONNECTION = "jdbc:sqlserver://ANDREIA\\CBDINSTANCE;databaseName="+Contract.KEYVALUEDB;
     private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "qwer";
+    private static final String DB_PASSWORD = "passwords";
     
     public Connection getDBConnection() {
         Connection conn = null;
@@ -43,19 +44,21 @@ public class ImgDB {
     }
  
     /* Inserir prato */
-    public void insertImage(Connection conn,String img,int id) {
+    public void insertImage(String img) throws SQLException, FileNotFoundException {
         int len;
         String query;
-        PreparedStatement pstmt;
+        Connection dbConnection = null;
+        PreparedStatement pstmt = null;
                  
         try {
+            dbConnection = getDBConnection();          
             if (img != null) {
                 File file = new File(img);
                 FileInputStream fis = new FileInputStream(file);
                 len = (int)file.length();
 
                 query = ("INSERT INTO " + Contract.KEYVALUETable + " VALUES(?)");
-                pstmt = conn.prepareStatement(query);
+                pstmt = dbConnection.prepareStatement(query);
 
                 // Method used to insert a stream of bytes
                 pstmt.setBinaryStream(1, fis, len); 
@@ -63,46 +66,78 @@ public class ImgDB {
             }
             else { // TODO
                 query = ("INSERT INTO " + Contract.KEYVALUETable + "(ID) VALUES NULL");
-                pstmt = conn.prepareStatement(query);
+                pstmt = dbConnection.prepareStatement(query);
                 pstmt.executeUpdate();
             }
  
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (pstmt != null) {
+                    pstmt.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
         }
     }
     
     /* obter a imagem de um dado prato  */
-    public byte[] getImage(Connection conn,int id) {
+    public byte[] getImage(int id) throws SQLException {
         byte[] fileBytes = null;
         String query;
+        Connection dbConnection = null;
+        Statement st = null;
         try {
+            dbConnection = getDBConnection();
             query = "SELECT Prato_img FROM " + Contract.KEYVALUETable + " WHERE ID="+id;
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery(query);
+            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
                 fileBytes = rs.getBytes(1);
             }        
                          
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
         }
         return fileBytes;
     }
     
     /* eliminar prato */
-    public void deletePratoImage(Connection conn,int id) {
-        byte[] fileBytes = null;
+    public void deletePratoImage(int id) throws SQLException {
         String query;
+        Connection dbConnection = null;
+        Statement st = null;
         try {
+            dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.KEYVALUETable + " WHERE ID="+id;
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery(query);
+            st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery(query);
             rs.absolute(id);
             rs.deleteRow();      
                          
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
         }
     }
 }

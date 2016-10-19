@@ -93,7 +93,7 @@ public class Prato {
     }
 
     public List<String> getQuantidades() {
-        return alimentos;
+        return quantidades;
     }
     
     public void setAlimentos(List<String> alimentos) {

@@ -7,7 +7,11 @@ package cbd_nutribd;
 
 import DB.ImgDB;
 import DB.DocDB;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -79,7 +83,13 @@ public class InsertView extends javax.swing.JFrame {
         Connection conn = db.getDBConnection();
         for (int i=1;i<22;i++) {
             System.out.println("Insert " + i + " image.");
-            db.insertImage(conn,"res\\img\\" + i + ".jpg", i);
+            try {
+                db.insertImage("res\\img\\" + i + ".jpg");
+            } catch (SQLException ex) {
+                Logger.getLogger(InsertView.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(InsertView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
