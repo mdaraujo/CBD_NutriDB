@@ -57,8 +57,8 @@ public class GraphDB {
         for (int i = 0; i < ingredientes.size(); i++) {
             idIngrediente = relDB.getIdAlimento(ingredientes.get(i));
             qtd = quantidades.get(i);
-
-            inserts.add(String.format("insert into "+Contract.GRAPHTable+" values(%d,%d,'%s');", idPrato, idIngrediente, qtd));
+            if (!existsPratoIng(idPrato,idIngrediente))
+                inserts.add(String.format("insert into "+Contract.GRAPHTable+" values(%d,%d,'%s');", idPrato, idIngrediente, qtd));
         }
         System.out.println(idIngrediente);
         //adicionar
@@ -86,6 +86,48 @@ public class GraphDB {
                     dbConnection.close();
             }
         }
+    }
+    
+    /* obter os ingredientes e respetiva quantidade de um dado prato */
+    //query = "SELECT IdIngrediente,Quantidade FROM "+Contract.GRAPHTable + " WHERE IdPrato="+id;
+
+    /* eliminar pratos */
+    //query = "DELETE FROM "+Contract.GRAPHTable+" WHERE IdPrato="+id;
+
+    private boolean existsPratoIng(int idPrato, int idIngrediente) throws SQLException {
+        Connection dbConnection = null;
+        Statement st = null;
+        int countRows = 0;
+        boolean exits=false;
+        try {
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            String query = "select quantidade from "+Contract.GRAPHTable+" where idPrato="+idPrato+" and idIngrediente="+idIngrediente;
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                countRows++;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        
+        if(countRows!=0){
+            exits = true;
+        }
+            
+        return exits;
     }
     
     
