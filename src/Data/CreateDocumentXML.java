@@ -56,7 +56,7 @@ public class CreateDocumentXML {
     }
 
     private void putTagDificuldade(String dificuldade) {
-        conteudo+="\t<Dificuldade>"+dificuldade+"</Dificuladade>\n";
+        conteudo+="\t<Dificuldade>"+dificuldade+"</Dificuldade>\n";
     }
 
     private void putTagTempo(String tempo) {
@@ -64,7 +64,7 @@ public class CreateDocumentXML {
     }
 
     private void putTagDose(String dose) {
-        conteudo+="\t<Dose>"+dose+"</Dose>\n";
+        conteudo+="\t<Doses>"+dose+"</Doses>\n";
     }  
 
     private void createFile() throws IOException {
