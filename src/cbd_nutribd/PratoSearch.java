@@ -6,6 +6,8 @@
 package cbd_nutribd;
 
 import DB.DocDB;
+import DB.GraphDB;
+import DB.ImgDB;
 import DB.RelationalDB;
 import Data.Prato;
 import java.awt.Font;
@@ -18,13 +20,14 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Miguel
  */
 public class PratoSearch extends javax.swing.JFrame {
-
+    private int id = -1;
     /**
      * Creates new form PratoSearch
      */
@@ -58,6 +61,7 @@ public class PratoSearch extends javax.swing.JFrame {
         cozinhaInput = new javax.swing.JComboBox<>();
         tempoInput = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        eliminarPrato = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +98,13 @@ public class PratoSearch extends javax.swing.JFrame {
 
         jLabel5.setText("Tempo");
 
+        eliminarPrato.setText("Eliminar Prato");
+        eliminarPrato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarPratoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,13 +132,19 @@ public class PratoSearch extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(80, 80, 80)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cozinhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
-                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cozinhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eliminarPrato)
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,15 +157,17 @@ public class PratoSearch extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(cozinhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dosesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(difInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dosesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(difInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
+                        .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5))
+                    .addComponent(eliminarPrato, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -191,8 +210,29 @@ public class PratoSearch extends javax.swing.JFrame {
                 i = Integer.valueOf(matcher.group());
             
             System.out.println(i);
+            id = i;
         }
     }//GEN-LAST:event_listMouseClicked
+
+    private void eliminarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPratoActionPerformed
+        if (id != -1) {
+            DocDB docDB = new DocDB();
+            GraphDB graphDB = new GraphDB();
+            ImgDB imgDB = new ImgDB();
+            RelationalDB relationalDB = new RelationalDB();
+            try {
+                docDB.deletePratoDoc(id);
+                graphDB.deletePratoGraph(id);
+                imgDB.deletePratoImage(id);
+                relationalDB.deletePratoRelational(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(PratoSearch.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            searchBtn.doClick();
+            JOptionPane.showMessageDialog(this, "Plate successfully deleted!");
+        }
+       
+    }//GEN-LAST:event_eliminarPratoActionPerformed
 
     public List<Prato> getListInDocs()
     {
@@ -282,6 +322,7 @@ public class PratoSearch extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cozinhaInput;
     private javax.swing.JComboBox<String> difInput;
     private javax.swing.JSpinner dosesInput;
+    private javax.swing.JButton eliminarPrato;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

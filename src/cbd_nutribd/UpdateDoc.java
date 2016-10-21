@@ -6,13 +6,8 @@
 package cbd_nutribd;
 
 import DB.DocDB;
-import DB.GraphDB;
-import DB.ImgDB;
-import DB.RelationalDB;
-import Data.CreateDocumentXML;
 import Data.Prato;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,15 +18,22 @@ import javax.swing.JOptionPane;
  *
  * @author Andreia Machado
  */
-public class InsertDoc extends javax.swing.JFrame {
+public class UpdateDoc extends javax.swing.JFrame {
     private Prato plate;
+    
     /**
-     * Creates new form InsertDoc
+     * Creates new form UpdateDoc
      */
-    public InsertDoc() {
+    public UpdateDoc() {
         initComponents();
-        this.setTitle("Inserir Prato");
+        this.setTitle("Alterar Preparação");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    public UpdateDoc(Prato plate) throws SQLException {
+        this();
+        this.plate = plate;
+        viewPreparacao();
     }
 
     /**
@@ -43,28 +45,20 @@ public class InsertDoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        PreparacaoTXT = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
-        CozinhaTXT = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         DoseTXT = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         TempoTXT = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        DificuldadeTXT = new javax.swing.JTextField();
-        AdicionarPrato = new javax.swing.JButton();
+        DificuldadeTXT3 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        editar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        PreparacaoTXT = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        CozinhaTXT = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel2.setText("Preparação");
-
-        PreparacaoTXT.setColumns(20);
-        PreparacaoTXT.setRows(5);
-        jScrollPane1.setViewportView(PreparacaoTXT);
-
-        jLabel3.setText("Tipo de Cozinha");
 
         jLabel4.setText("Doses");
 
@@ -72,18 +66,26 @@ public class InsertDoc extends javax.swing.JFrame {
 
         jLabel6.setText("Dificuldade");
 
-        DificuldadeTXT.addActionListener(new java.awt.event.ActionListener() {
+        DificuldadeTXT3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DificuldadeTXTActionPerformed(evt);
+                DificuldadeTXT3ActionPerformed(evt);
             }
         });
 
-        AdicionarPrato.setText("Adicionar Prato");
-        AdicionarPrato.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setText("Preparação");
+
+        editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdicionarPratoActionPerformed(evt);
+                editarActionPerformed(evt);
             }
         });
+
+        PreparacaoTXT.setColumns(20);
+        PreparacaoTXT.setRows(5);
+        jScrollPane1.setViewportView(PreparacaoTXT);
+
+        jLabel3.setText("Tipo de Cozinha");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,7 +94,7 @@ public class InsertDoc extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(AdicionarPrato)
+                    .addComponent(editar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
@@ -106,9 +108,9 @@ public class InsertDoc extends javax.swing.JFrame {
                                 .addComponent(CozinhaTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                                 .addComponent(DoseTXT)
                                 .addComponent(TempoTXT)
-                                .addComponent(DificuldadeTXT)))
+                                .addComponent(DificuldadeTXT3)))
                         .addComponent(jLabel2)))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,41 +134,33 @@ public class InsertDoc extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DificuldadeTXT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(AdicionarPrato)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addComponent(editar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DificuldadeTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXTActionPerformed
+    private void DificuldadeTXT3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXT3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_DificuldadeTXTActionPerformed
+    }//GEN-LAST:event_DificuldadeTXT3ActionPerformed
 
-    private void AdicionarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarPratoActionPerformed
-        GraphDB graph = new GraphDB();
-        ImgDB imgBD = new ImgDB();
-        try {
-            graph.addPratoGrafosDB(plate);
-            imgBD.insertImage(plate.getImagem());
-        } catch (SQLException | FileNotFoundException ex) {
-            Logger.getLogger(InsertPlate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        RelationalDB relational = new RelationalDB();
-        DocDB docBD = new DocDB();
-        int id;
-        try {
-            id = relational.getIdPrato(plate);
-            prepararDocumento(id);
-            docBD.insertDoc("doc"+id);
-        } catch (SQLException ex) {
-            Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JOptionPane.showMessageDialog(this, "Plate successfully created!");
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        DocDB docDB = new DocDB();
+        if (!(plate.getDificuldade().equals(DificuldadeTXT3.getText())) || !(plate.getTempo().equals(TempoTXT.getText())) 
+                || (plate.getDoses() != Integer.parseInt(DoseTXT.getText())) || !(plate.getCozinha().equals(CozinhaTXT.getText()))
+                || !(plate.getPreparacao().equals(PreparacaoTXT.getText()))) {
+            try {
+                docDB.updatePratoDoc(plate);
+            } catch (SQLException | FileNotFoundException ex) {
+                Logger.getLogger(UpdateDoc.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }   
+        JOptionPane.showMessageDialog(this, "Modification completed successfully!");
         this.dispose();
-    }//GEN-LAST:event_AdicionarPratoActionPerformed
+    }//GEN-LAST:event_editarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,31 +179,34 @@ public class InsertDoc extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InsertDoc().setVisible(true);
+                new UpdateDoc().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AdicionarPrato;
     private javax.swing.JTextField CozinhaTXT;
     private javax.swing.JTextField DificuldadeTXT;
+    private javax.swing.JTextField DificuldadeTXT1;
+    private javax.swing.JTextField DificuldadeTXT2;
+    private javax.swing.JTextField DificuldadeTXT3;
     private javax.swing.JTextField DoseTXT;
     private javax.swing.JTextArea PreparacaoTXT;
     private javax.swing.JTextField TempoTXT;
+    private javax.swing.JButton editar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -218,22 +215,14 @@ public class InsertDoc extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    private void prepararDocumento(int id) {
-        String nome = "doc"+id;
-        String preparacao = PreparacaoTXT.getText();
-        String cozinha = CozinhaTXT.getText();
-        String dificuldade = DificuldadeTXT.getText();
-        String tempo = TempoTXT.getText();
-        String dose = DoseTXT.getText();
-        CreateDocumentXML cdxml = new CreateDocumentXML(nome);
-        try {
-            cdxml.createDocument(id, preparacao, cozinha, dificuldade, tempo, dose);
-        } catch (IOException ex) {
-            Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void setPlate(Prato plate) {
-        this.plate = plate;
+    private void viewPreparacao() throws SQLException {
+        DocDB docDB = new DocDB();
+        Prato prato = docDB.getPrato(plate.getID());
+        plate = prato;
+        DificuldadeTXT3.setText(prato.getDificuldade());
+        DoseTXT.setText(Integer.toString(prato.getDoses()));
+        CozinhaTXT.setText(prato.getCozinha());
+        TempoTXT.setText(prato.getTempo());
+        PreparacaoTXT.setText(prato.getPreparacao());
     }
 }

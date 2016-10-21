@@ -65,7 +65,7 @@ public class ImgDB {
                 pstmt.executeUpdate();
             }
             else { // TODO
-                query = ("INSERT INTO " + Contract.KEYVALUETable + "(ID) VALUES NULL");
+                query = ("INSERT INTO " + Contract.KEYVALUETable + " VALUES (NULL)");
                 pstmt = dbConnection.prepareStatement(query);
                 pstmt.executeUpdate();
             }
@@ -118,14 +118,12 @@ public class ImgDB {
     public void deletePratoImage(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
-        Statement st = null;
+        PreparedStatement st = null;
         try {
             dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.KEYVALUETable + " WHERE ID="+id;
-            st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            rs.absolute(id);
-            rs.deleteRow();      
+            st = dbConnection.prepareStatement(query);
+            st.executeQuery();      
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -137,6 +135,39 @@ public class ImgDB {
 
             if (dbConnection != null) {
                     dbConnection.close();
+            }
+        }
+    }
+
+    /* atualizar pratos */
+    public void updatePratoImg(int idPrato, String img) throws SQLException, FileNotFoundException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            if (img != null) {
+                File file = new File(img);
+                FileInputStream fis = new FileInputStream(file);
+                int len = (int)file.length();
+
+                dbConnection = getDBConnection();
+                query = "UPDATE "+ Contract.KEYVALUETable +" SET Prato_img=? Where ID=?";
+                st = dbConnection.prepareStatement(query);
+                st.setBinaryStream(1, fis, len); 
+                st.setInt(2, idPrato);
+                st.executeQuery();
+            }
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
             }
         }
     }

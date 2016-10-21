@@ -48,6 +48,7 @@ public class DocDB {
         return dbConnection;
     }
     
+    /* Inserir prato */
     public void insertDoc(String doc) throws SQLException {
         int len;
         Connection dbConnection = null;
@@ -82,8 +83,8 @@ public class DocDB {
         }
     }
     
+    /* obter o documento de um dado prato  */
     public Prato getPrato(int id) throws SQLException {
-        
         Connection dbConnection = null;
         PreparedStatement st = null;
         Prato prato = null;
@@ -91,6 +92,7 @@ public class DocDB {
         try {
             dbConnection = getDBConnection();
             String query = "SELECT \n" +
+                            "Doc.value('(/prato//preparacao/node())[1]', 'nvarchar(max)') as preparacao,\n" +
                             "Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') as cozinha,\n" +
                             "Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') as dif,\n" +
                             "Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') as tempo,\n" +
@@ -100,13 +102,13 @@ public class DocDB {
             st.setInt(1,id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                
                 String cozinha = rs.getString("cozinha");
                 String dificuldade = rs.getString("dif");
                 String tempo = rs.getString("tempo");
                 int doses = rs.getInt("doses");
+                String preparacao = rs.getString("preparacao");
                 
-                prato = new Prato(id, cozinha, dificuldade, tempo, doses);
+                prato = new Prato(id, cozinha, dificuldade, tempo, doses,preparacao);
             }        
                          
         } catch (SQLException e) {
@@ -166,5 +168,69 @@ public class DocDB {
             }
         }
         return pratos;
+    }
+    
+    /* eliminar prato */
+    public void deletePratoDoc(int id) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "DELETE FROM "+Contract.DOCUMENTTable + " WHERE ID="+id;
+            st = dbConnection.prepareStatement(query);
+            st.executeQuery();     
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+    }
+    
+    /* atualizar pratos */
+    public void updatePratoDoc(Prato prato) throws SQLException, FileNotFoundException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        String doc = "doc"+prato.getID();
+        CreateDocumentXML cdxml = new CreateDocumentXML(doc);
+        try {
+            cdxml.createDocument(prato.getID(), prato.getPreparacao(), prato.getCozinha(), prato.getDificuldade(), prato.getTempo(), Integer.toString(prato.getDoses()));
+        } catch (IOException ex) {
+            Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            File file = new File("res\\doc\\" + doc + ".xml");
+            FileInputStream fis = new FileInputStream(file);
+            int len = (int)file.length();
+            
+            dbConnection = getDBConnection();
+            query = "UPDATE "+ Contract.DOCUMENTTable +" SET Doc=? Where ID=?";
+            st = dbConnection.prepareStatement(query);
+            st.setBinaryStream(1, fis, len); 
+            st.setInt(2, prato.getID());
+            st.executeQuery();
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
     }
 }

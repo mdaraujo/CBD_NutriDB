@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
  * @author Andreia Machado
  */
 public class ButtonImage extends javax.swing.JFrame {
-    private int id=0;
+    private int id=21;
     /**
      * Creates new form ButtonImage
      */

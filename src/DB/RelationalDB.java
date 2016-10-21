@@ -66,7 +66,7 @@ public class RelationalDB {
 
         return id;
     }
-
+    
     public int getIdAlimento(String nome) throws SQLException {
 
         Connection dbConnection = null;
@@ -104,7 +104,8 @@ public class RelationalDB {
 
         return id;
     }
-
+    
+    /* inserir pratos */
     public boolean addPrato(Prato prato) throws SQLException {
 
         Connection dbConnection = null;
@@ -131,18 +132,17 @@ public class RelationalDB {
             }
         }
     }
-
+    
+    /* inserir alimentos */
     public boolean addAlimento(String nome) throws SQLException {
 
         Connection dbConnection = null;
         PreparedStatement st = null;
         try {
             dbConnection = getDBConnection();
-            int id = newIdIngredientes();
-            String query = "insert into " + Contract.IngredienteTable + " (ID,Nome) values (?,?)";
+            String query = "insert into " + Contract.IngredienteTable + " (Nome) values (?)";
             st = dbConnection.prepareStatement(query);
-            st.setInt(1, id);
-            st.setString(2, nome);
+            st.setString(1,nome);
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -159,43 +159,8 @@ public class RelationalDB {
             }
         }
     }
-
-    public int newIdIngredientes() throws SQLException {
-
-        Connection dbConnection = null;
-        Statement st = null;
-        int id = 1;
-
-        try {
-            //Estalbelecimento da ligacao
-            String query = "select * from " + Contract.IngredienteTable + ";";
-
-            dbConnection = getDBConnection();
-            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = st.executeQuery(query);
-            while (rs.last()) {
-                return Integer.parseInt(rs.getString("ID")) + 1;
-            }
-
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-
-        } finally {
-
-            if (st != null) {
-                st.close();
-            }
-
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-        }
-
-        return id;
-
-    }
-
+    
+    /* obter informações sobre o prato */
     public Prato getPrato(int id) throws SQLException {
 
         Connection dbConnection = null;
@@ -232,7 +197,8 @@ public class RelationalDB {
 
         return prato;
     }
-
+    
+    
     public List selectPratos(String selectSQL) throws SQLException {
 
         Connection dbConnection = null;
@@ -271,7 +237,7 @@ public class RelationalDB {
         }
         return pratos;
     }
-
+    
     public DefaultListModel selectAlimentos(String selectSQL) throws SQLException {
 
         Connection dbConnection = null;
@@ -320,7 +286,95 @@ public class RelationalDB {
         }
         return listModel;
     }
+    
+    /* eliminar prato */
+    public void deletePratoRelational(int id) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "DELETE FROM "+Contract.PratoTable + " WHERE ID="+id;
+            st = dbConnection.prepareStatement(query);
+            st.executeQuery();      
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
 
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+    }
+    
+    /* obter o nome do ingrediente */
+    public String getNomeIng(int id) throws SQLException {
+        Connection dbConnection = null;
+        Statement st = null;
+        String nome = null;
+
+        try {
+            
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM "+Contract.IngredienteTable+" WHERE ID ="+id;
+            ResultSet rs = st.executeQuery(query);
+            
+            
+            while (rs.next()) {
+                nome = rs.getString("Nome");
+            }
+            
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+        return nome;
+    }
+    
+    /* atualizar pratos */
+    public void updatePrato(int idPrato, String nome, String descricao) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "UPDATE "+ Contract.PratoTable +" SET Nome=?,Descricao=? Where ID=?";
+            st = dbConnection.prepareStatement(query);
+            st.setString(1, nome);
+            st.setString(2, descricao);
+            st.setInt(3, idPrato);
+            st.executeQuery();
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+    
     // Not Used
     public DefaultListModel selectPratosLM(String selectSQL) throws SQLException {
 
@@ -361,7 +415,7 @@ public class RelationalDB {
         }
         return listModel;
     }
-
+    
     public Connection getDBConnection() {
 
         Connection dbConnection = null;

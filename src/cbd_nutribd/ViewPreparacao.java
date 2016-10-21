@@ -6,16 +6,12 @@
 package cbd_nutribd;
 
 import DB.DocDB;
-import DB.GraphDB;
 import DB.ImgDB;
-import DB.RelationalDB;
-import Data.CreateDocumentXML;
 import Data.Prato;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -23,15 +19,35 @@ import javax.swing.JOptionPane;
  *
  * @author Andreia Machado
  */
-public class InsertDoc extends javax.swing.JFrame {
-    private Prato plate;
+public class ViewPreparacao extends javax.swing.JFrame {
+    private int idPrato;
+    private String nome;
+    private Prato prato;
+    
     /**
-     * Creates new form InsertDoc
+     * Creates new form verPreparacoa
      */
-    public InsertDoc() {
+    public ViewPreparacao() {
         initComponents();
-        this.setTitle("Inserir Prato");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        CozinhaTXT.setEditable(false);
+        DificuldadeTXT.setEditable(false);
+        DoseTXT.setEditable(false);
+        PreparacaoTXT.setEditable(false);
+        TempoTXT.setEditable(false);
+
+    }
+
+    public ViewPreparacao(int idPrato, String nome) {
+        this();
+        this.idPrato = idPrato;
+        this.nome = nome;
+        this.setTitle("Preparação do "+nome);
+        try {
+            viewPreparacao();
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewPreparacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -43,6 +59,10 @@ public class InsertDoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
+        TempoTXT = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        DificuldadeTXT = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         PreparacaoTXT = new javax.swing.JTextArea();
@@ -50,23 +70,9 @@ public class InsertDoc extends javax.swing.JFrame {
         CozinhaTXT = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         DoseTXT = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        TempoTXT = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        DificuldadeTXT = new javax.swing.JTextField();
-        AdicionarPrato = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel2.setText("Preparação");
-
-        PreparacaoTXT.setColumns(20);
-        PreparacaoTXT.setRows(5);
-        jScrollPane1.setViewportView(PreparacaoTXT);
-
-        jLabel3.setText("Tipo de Cozinha");
-
-        jLabel4.setText("Doses");
 
         jLabel5.setText("Tempo");
 
@@ -78,46 +84,55 @@ public class InsertDoc extends javax.swing.JFrame {
             }
         });
 
-        AdicionarPrato.setText("Adicionar Prato");
-        AdicionarPrato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdicionarPratoActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Preparação");
+
+        PreparacaoTXT.setColumns(20);
+        PreparacaoTXT.setRows(5);
+        jScrollPane1.setViewportView(PreparacaoTXT);
+
+        jLabel3.setText("Tipo de Cozinha");
+
+        jLabel4.setText("Doses");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(91, 91, 91)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(AdicionarPrato)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(CozinhaTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                                .addComponent(DoseTXT)
-                                .addComponent(TempoTXT)
-                                .addComponent(DificuldadeTXT)))
-                        .addComponent(jLabel2)))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CozinhaTXT)
+                            .addComponent(DoseTXT)
+                            .addComponent(TempoTXT)
+                            .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(CozinhaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -133,9 +148,7 @@ public class InsertDoc extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(AdicionarPrato)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(65, 65, 65))
         );
 
         pack();
@@ -144,29 +157,6 @@ public class InsertDoc extends javax.swing.JFrame {
     private void DificuldadeTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DificuldadeTXTActionPerformed
-
-    private void AdicionarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarPratoActionPerformed
-        GraphDB graph = new GraphDB();
-        ImgDB imgBD = new ImgDB();
-        try {
-            graph.addPratoGrafosDB(plate);
-            imgBD.insertImage(plate.getImagem());
-        } catch (SQLException | FileNotFoundException ex) {
-            Logger.getLogger(InsertPlate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        RelationalDB relational = new RelationalDB();
-        DocDB docBD = new DocDB();
-        int id;
-        try {
-            id = relational.getIdPrato(plate);
-            prepararDocumento(id);
-            docBD.insertDoc("doc"+id);
-        } catch (SQLException ex) {
-            Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JOptionPane.showMessageDialog(this, "Plate successfully created!");
-        this.dispose();
-    }//GEN-LAST:event_AdicionarPratoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,31 +175,38 @@ public class InsertDoc extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPreparacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPreparacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPreparacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsertDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPreparacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InsertDoc().setVisible(true);
+                new ViewPreparacao().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AdicionarPrato;
     private javax.swing.JTextField CozinhaTXT;
     private javax.swing.JTextField DificuldadeTXT;
     private javax.swing.JTextField DoseTXT;
     private javax.swing.JTextArea PreparacaoTXT;
     private javax.swing.JTextField TempoTXT;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -217,23 +214,34 @@ public class InsertDoc extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-    private void prepararDocumento(int id) {
-        String nome = "doc"+id;
-        String preparacao = PreparacaoTXT.getText();
-        String cozinha = CozinhaTXT.getText();
-        String dificuldade = DificuldadeTXT.getText();
-        String tempo = TempoTXT.getText();
-        String dose = DoseTXT.getText();
-        CreateDocumentXML cdxml = new CreateDocumentXML(nome);
-        try {
-            cdxml.createDocument(id, preparacao, cozinha, dificuldade, tempo, dose);
-        } catch (IOException ex) {
-            Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void setIdPrato(int id) {
+        idPrato = id;
     }
     
-    public void setPlate(Prato plate) {
-        this.plate = plate;
+    public void setNomePrato(String nome) {
+        this.nome = nome;
+    }
+
+    private void viewPreparacao() throws SQLException {
+        DocDB docDB = new DocDB();
+        Prato plate = docDB.getPrato(idPrato);
+        DificuldadeTXT.setText(plate.getDificuldade());
+        DoseTXT.setText(Integer.toString(plate.getDoses()));
+        CozinhaTXT.setText(plate.getCozinha());
+        TempoTXT.setText(plate.getTempo());
+        PreparacaoTXT.setText(plate.getPreparacao());
+        ImgDB imgDB = new ImgDB();
+        byte[] img =  imgDB.getImage(idPrato);
+        ImageIcon icon = null;
+        if (img != null) {
+            icon = new ImageIcon(img);
+        }
+        jLabel1.setIcon(icon);
+        prato = plate;
+    }
+
+    
+    public Prato getPrato(){
+        return prato;
     }
 }

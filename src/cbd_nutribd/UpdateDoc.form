@@ -26,9 +26,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="AdicionarPrato" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" min="-2" pref="695" max="-2" attributes="0"/>
+                  <Component id="editar" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                      <Component id="jScrollPane1" alignment="0" min="-2" pref="695" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -38,16 +38,16 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="CozinhaTXT" pref="244" max="32767" attributes="0"/>
-                              <Component id="DoseTXT" max="32767" attributes="0"/>
-                              <Component id="TempoTXT" max="32767" attributes="0"/>
-                              <Component id="DificuldadeTXT" max="32767" attributes="0"/>
+                              <Component id="CozinhaTXT" alignment="0" pref="244" max="32767" attributes="0"/>
+                              <Component id="DoseTXT" alignment="0" max="32767" attributes="0"/>
+                              <Component id="TempoTXT" alignment="0" max="32767" attributes="0"/>
+                              <Component id="DificuldadeTXT3" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="98" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,20 +76,52 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="DificuldadeTXT" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="DificuldadeTXT3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="AdicionarPrato" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <Component id="editar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Doses"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="DoseTXT">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tempo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TempoTXT">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dificuldade"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="DificuldadeTXT3">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DificuldadeTXT3ActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Prepara&#xe7;&#xe3;o"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="editar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -112,38 +144,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="CozinhaTXT">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Doses"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="DoseTXT">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tempo"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="TempoTXT">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel6">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Dificuldade"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="DificuldadeTXT">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DificuldadeTXTActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="AdicionarPrato">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar Prato"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AdicionarPratoActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

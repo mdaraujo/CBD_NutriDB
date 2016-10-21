@@ -42,6 +42,7 @@ public class GraphDB {
         return conn;
     }
     
+    /* adicionar pratos */
     public boolean addPratoGrafosDB(Prato prato) throws SQLException {
 
         RelationalDB relDB = new RelationalDB();
@@ -87,12 +88,6 @@ public class GraphDB {
             }
         }
     }
-    
-    /* obter os ingredientes e respetiva quantidade de um dado prato */
-    //query = "SELECT IdIngrediente,Quantidade FROM "+Contract.GRAPHTable + " WHERE IdPrato="+id;
-
-    /* eliminar pratos */
-    //query = "DELETE FROM "+Contract.GRAPHTable+" WHERE IdPrato="+id;
 
     private boolean existsPratoIng(int idPrato, int idIngrediente) throws SQLException {
         Connection dbConnection = null;
@@ -122,13 +117,39 @@ public class GraphDB {
                     dbConnection.close();
             }
         }
-        
+        System.out.println(countRows);
         if(countRows!=0){
             exits = true;
         }
             
         return exits;
     }
+    
+    /* eliminar pratos */
+    public void deletePratoGraph(int id) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "DELETE FROM "+Contract.GRAPHTable+" WHERE IdPrato="+id;
+            st = dbConnection.prepareStatement(query);
+            st.executeQuery();        
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+    }
+    
     /**
      * @param ingredientes os id's dos ingredientes
      * @return uma lista com os id's dos pratos que contêem todos os
@@ -175,6 +196,55 @@ public class GraphDB {
         }
         
         return ids;
+    }
+    
+    /* obter os ingredientes e respetiva quantidade de um dado prato */
+    public Prato getIngredientesQuantidades(int id,Prato plate) throws SQLException {
+        Connection dbConnection = null;
+        Statement st = null;
+        List<String> quantidades = new ArrayList<>();
+        List<Integer> idIngredientes = new ArrayList<>();
+        List<String> ingredientes = new ArrayList<>();
+        try {
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            String query = "select idIngrediente,quantidade from "+Contract.GRAPHTable+" where idPrato="+id;
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                int idIng = rs.getInt("idIngrediente");
+                String quantidade = rs.getString("quantidade");
+                idIngredientes.add(idIng);
+                quantidades.add(quantidade);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        
+        RelationalDB relDB = new RelationalDB();
+        for(int idIng: idIngredientes)
+            ingredientes.add(relDB.getNomeIng(idIng));
+        plate.setAlimentos(ingredientes);
+        plate.setQuantidades(quantidades);
+        
+        return plate;
+    }
+
+    /* atualizar prato */
+    public void updatePratoGraph(int idPrato, Prato prato) throws SQLException {
+        deletePratoGraph(idPrato);
+        addPratoGrafosDB(prato);
     }
     
 }
