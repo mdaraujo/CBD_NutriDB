@@ -25,6 +25,7 @@ public class Prato {
     private String dificuldade;
     private String tempo;
     private int doses;
+    private String preparacao;
     
     private String imagem;
 
@@ -57,7 +58,14 @@ public class Prato {
         this.doses = doses;
     }
     
-    
+    public Prato(int id, String cozinha, String dificuldade, String tempo, int doses, String preparacao) {
+        this.ID = id;
+        this.cozinha = cozinha;
+        this.dificuldade = dificuldade;
+        this.tempo = tempo;
+        this.doses = doses;
+        this.preparacao = preparacao;
+    }
     
     @Override
     public String toString(){
@@ -142,5 +150,13 @@ public class Prato {
 
     public void setDoses(int doses) {
         this.doses = doses;
+    }
+
+    public String getPreparacao() {
+        return preparacao;
+    }
+
+    public void setPreparacao(String preparacao) {
+        this.preparacao = preparacao;
     }
 }
