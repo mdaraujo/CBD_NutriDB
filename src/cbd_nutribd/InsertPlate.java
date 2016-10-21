@@ -11,19 +11,15 @@ import DB.ImgDB;
 import DB.RelationalDB;
 import Data.Prato;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +30,6 @@ public class InsertPlate extends javax.swing.JFrame {
     private List<String> quantidades = new ArrayList<>();
     private String imagem;
     private DefaultListModel dlm = new DefaultListModel();
-    private int index;
     
     /**
      * Creates new form InsertPlate
@@ -42,8 +37,6 @@ public class InsertPlate extends javax.swing.JFrame {
     public InsertPlate() {
         initComponents();
         this.setTitle("Inserir prato");
-        atualizar.setVisible(false);
-        eliminar.setVisible(false);
     }
 
     /**
@@ -72,13 +65,12 @@ public class InsertPlate extends javax.swing.JFrame {
         ProcurarImagem = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         imagemDiretorio = new javax.swing.JLabel();
-        eliminar = new javax.swing.JButton();
-        atualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Titulo");
 
+        tituloTXT.setText("CROISSANTS DE CHOCOLATE");
         tituloTXT.setName("tituloTxt"); // NOI18N
         tituloTXT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,15 +91,11 @@ public class InsertPlate extends javax.swing.JFrame {
             }
         });
 
-        listaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaIngredientesMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(listaIngredientes);
 
         descricaoTXT.setColumns(20);
         descricaoTXT.setRows(5);
+        descricaoTXT.setText("CENAS");
         jScrollPane2.setViewportView(descricaoTXT);
 
         jLabel5.setText("Descrição");
@@ -130,24 +118,23 @@ public class InsertPlate extends javax.swing.JFrame {
 
         imagemDiretorio.setText("Nada adicionado");
 
-        eliminar.setText("Eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
-            }
-        });
-
-        atualizar.setText("Atualizar");
-        atualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atualizarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel1)
+                        .addGap(38, 38, 38)
+                        .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(jLabel3)
+                        .addGap(234, 234, 234)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,44 +143,24 @@ public class InsertPlate extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(imagemDiretorio)
-                                .addGap(51, 51, 51)
-                                .addComponent(ProcurarImagem))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(44, 44, 44)
-                                .addComponent(IngredienteTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(QuantidadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(AdicionarIngrediente)))
-                        .addGap(18, 18, 18)
-                        .addComponent(atualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(eliminar)
-                        .addGap(0, 75, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(AdicionarPrato)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(jLabel3)
-                        .addGap(234, 234, 234)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel1)
-                        .addGap(38, 38, 38)
-                        .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(imagemDiretorio)
+                                    .addGap(51, 51, 51)
+                                    .addComponent(ProcurarImagem))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(44, 44, 44)
+                                    .addComponent(IngredienteTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(105, 105, 105)
+                                    .addComponent(QuantidadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(76, 76, 76)
+                                    .addComponent(AdicionarIngrediente))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(0, 256, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,21 +173,19 @@ public class InsertPlate extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(IngredienteTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(QuantidadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AdicionarIngrediente)
-                    .addComponent(eliminar)
-                    .addComponent(atualizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                    .addComponent(AdicionarIngrediente))
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(40, 40, 40)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -247,25 +212,22 @@ public class InsertPlate extends javax.swing.JFrame {
         plate.setAlimentos(ingredientes);
         plate.setQuantidades(quantidades);
         GraphDB graph = new GraphDB();
-        ImgDB imgBD = new ImgDB();
+        
         try {
             graph.addPratoGrafosDB(plate);
-            imgBD.insertImage(imagem);
-        } catch (SQLException | FileNotFoundException ex) {
+            //ImgDB imgBD = new ImgDB();
+            //Connection conn1 = imgBD.getDBConnection();
+            //imgBD.insertImage(conn1, imagem, 1);
+        } catch (SQLException ex) {
             Logger.getLogger(InsertPlate.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(this, "Plate successfully created!");
-        this.dispose();
     }//GEN-LAST:event_AdicionarPratoActionPerformed
 
     private void AdicionarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarIngredienteActionPerformed
         ingredientes.add(IngredienteTXT.getText());
         quantidades.add(QuantidadeTXT.getText());
-        String format = String.format("%-50s %-20s",IngredienteTXT.getText(),QuantidadeTXT.getText());
-        dlm.addElement(format);
+        dlm.addElement(IngredienteTXT.getText());
         listaIngredientes.setModel(dlm);
-        IngredienteTXT.setText("");
-        QuantidadeTXT.setText("");
     }//GEN-LAST:event_AdicionarIngredienteActionPerformed
 
     private void ProcurarImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarImagemActionPerformed
@@ -279,47 +241,6 @@ public class InsertPlate extends javax.swing.JFrame {
         }
         imagemDiretorio.setText(imagem);
     }//GEN-LAST:event_ProcurarImagemActionPerformed
-
-    private void listaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaIngredientesMouseClicked
-        if (evt.getClickCount() == 1) {
-            int i = -1;
-            String p = listaIngredientes.getSelectedValue();
-            String[] split = p.split(" ");
-            index = ingredientes.indexOf(split[0]);
-            IngredienteTXT.setText(split[0]);
-            QuantidadeTXT.setText(quantidades.get(index));
-            atualizar.setVisible(true);
-            eliminar.setVisible(true);
-            AdicionarIngrediente.setVisible(false);
-        }
-    }//GEN-LAST:event_listaIngredientesMouseClicked
-
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        int i = ingredientes.indexOf(IngredienteTXT.getText());
-        quantidades.remove(i);
-        ingredientes.remove(i);
-        String format = String.format("%-50s %-20s",IngredienteTXT.getText(),QuantidadeTXT.getText());
-        dlm.removeElement(format);
-        listaIngredientes.setModel(dlm);
-        IngredienteTXT.setText("");
-        QuantidadeTXT.setText("");
-        atualizar.setVisible(false);
-        eliminar.setVisible(false);
-        AdicionarIngrediente.setVisible(true);
-    }//GEN-LAST:event_eliminarActionPerformed
-
-    private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
-        ingredientes.set(index,IngredienteTXT.getText());
-        quantidades.set(index,QuantidadeTXT.getText());
-        String format = String.format("%-50s %-20s",IngredienteTXT.getText(),QuantidadeTXT.getText());
-        dlm.set(index,format);
-        listaIngredientes.setModel(dlm);
-        IngredienteTXT.setText("");
-        QuantidadeTXT.setText("");
-        atualizar.setVisible(false);
-        eliminar.setVisible(false);
-        AdicionarIngrediente.setVisible(true);
-    }//GEN-LAST:event_atualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,9 +283,7 @@ public class InsertPlate extends javax.swing.JFrame {
     private javax.swing.JTextField IngredienteTXT;
     private javax.swing.JButton ProcurarImagem;
     private javax.swing.JTextField QuantidadeTXT;
-    private javax.swing.JButton atualizar;
     private javax.swing.JTextArea descricaoTXT;
-    private javax.swing.JButton eliminar;
     private javax.swing.JLabel imagemDiretorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

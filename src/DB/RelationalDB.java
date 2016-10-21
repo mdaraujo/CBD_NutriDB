@@ -136,9 +136,11 @@ public class RelationalDB {
         PreparedStatement st = null;
         try {
             dbConnection = getDBConnection();
-            String query = "insert into " + Contract.IngredienteTable +" (Nome) values (?)";
+            int id = newIdIngredientes();
+            String query = "insert into " + Contract.IngredienteTable +" (ID,Nome) values (?,?)";
             st = dbConnection.prepareStatement(query);
-            st.setString(1, nome);
+            st.setInt(1, id);
+            st.setString(2, nome);
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -154,6 +156,42 @@ public class RelationalDB {
                     dbConnection.close();
             }
         }
+    }
+    
+    public int newIdIngredientes() throws SQLException {
+        
+        Connection dbConnection = null;
+        Statement st = null;
+        int id = 1;
+
+        try {
+            //Estalbelecimento da ligacao
+            String query = "select * from "+Contract.IngredienteTable+";";
+
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = st.executeQuery(query);
+            while (rs.last()) {
+                return Integer.parseInt(rs.getString("ID")) + 1;
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+
+        return id;
+
     }
     
     public Prato getPrato(int id) throws SQLException {

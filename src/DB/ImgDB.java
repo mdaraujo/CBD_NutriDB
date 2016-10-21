@@ -65,7 +65,7 @@ public class ImgDB {
                 pstmt.executeUpdate();
             }
             else { // TODO
-                query = ("INSERT INTO " + Contract.KEYVALUETable + " VALUES (NULL)");
+                query = ("INSERT INTO " + Contract.KEYVALUETable + "(ID) VALUES NULL");
                 pstmt = dbConnection.prepareStatement(query);
                 pstmt.executeUpdate();
             }
