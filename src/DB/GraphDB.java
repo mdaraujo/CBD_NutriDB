@@ -129,6 +129,52 @@ public class GraphDB {
             
         return exits;
     }
-    
+    /**
+     * @param ingredientes os id's dos ingredientes
+     * @return uma lista com os id's dos pratos que contêem todos os
+     * ingredientes
+     */
+    public List<Integer> pratoByIngredientes(List<Integer> ingredientes) {
+        List<Integer> ids = new ArrayList<>();
+
+        Connection conn = getDBConnection();
+
+        try {
+            Statement st;
+            ResultSet rs;
+ 
+            String query = "select * from Prato_Alimentos";
+            st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            rs = st.executeQuery(query);
+            
+            int idPrato=0, idIng;
+            int idAnterior = -1;
+            List<Integer> tempIdsIng = new ArrayList<>();
+            boolean temConteudo=false;
+            while (rs.next()) {
+                temConteudo=true;
+                idPrato = Integer.parseInt(rs.getString("idPrato"));
+                idIng = Integer.parseInt(rs.getString("idIngrediente"));
+
+                if (idPrato != idAnterior) {
+                    idAnterior = idPrato;
+                    if (tempIdsIng.containsAll(ingredientes)) {
+                        ids.add(idPrato);
+                    }
+                } else {
+                    tempIdsIng.add(idIng);
+                }
+            }
+            if (temConteudo && tempIdsIng.containsAll(ingredientes)) {
+                ids.add(idPrato);
+            }
+
+            conn.close();
+        } catch (SQLException ex) {
+
+        }
+        
+        return ids;
+    }
     
 }
