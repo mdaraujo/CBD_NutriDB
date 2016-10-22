@@ -5,11 +5,11 @@
  */
 package cbd_nutribd;
 
-import DB.DocDB;
 import DB.GraphDB;
 import DB.ImgDB;
 import DB.RelationalDB;
 import Data.Prato;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,8 +32,9 @@ public class ViewPlate extends javax.swing.JFrame {
     private String imagem;
     private DefaultListModel dlm = new DefaultListModel();
     private int index;
-    private int idPrato = 22;
+    private int idPrato = 23;
     private Prato pratoOriginal;
+    private boolean updateGraph = false;
     
     /**
      * Creates new form ViewPlate
@@ -41,6 +43,7 @@ public class ViewPlate extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Detalhes do prato");
+        listaIngredientes.setFont( new Font("monospaced", Font.PLAIN, 12) );
         atualizar.setVisible(false);
         eliminar.setVisible(false);
         AdicionarIngrediente.setVisible(false);
@@ -317,6 +320,7 @@ public class ViewPlate extends javax.swing.JFrame {
         atualizar.setVisible(false);
         eliminar.setVisible(false);
         AdicionarIngrediente.setVisible(true);
+        updateGraph = true;
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void tituloTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloTXTActionPerformed
@@ -334,6 +338,7 @@ public class ViewPlate extends javax.swing.JFrame {
         atualizar.setVisible(false);
         eliminar.setVisible(false);
         AdicionarIngrediente.setVisible(true);
+        updateGraph = true;
     }//GEN-LAST:event_atualizarActionPerformed
 
     private void listaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaIngredientesMouseClicked
@@ -360,6 +365,7 @@ public class ViewPlate extends javax.swing.JFrame {
         listaIngredientes.setModel(dlm);
         IngredienteTXT.setText("");
         QuantidadeTXT.setText("");
+        updateGraph = true;
     }//GEN-LAST:event_AdicionarIngredienteActionPerformed
 
     private void guardarAlteracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarAlteracoesActionPerformed
@@ -368,6 +374,21 @@ public class ViewPlate extends javax.swing.JFrame {
         } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(ViewPlate.class.getName()).log(Level.SEVERE, null, ex);
         }
+        atualizar.setVisible(false);
+        eliminar.setVisible(false);
+        AdicionarIngrediente.setVisible(false);
+        ProcurarImagem.setVisible(false);
+        imagemDiretorio.setVisible(false);
+        jLabel6.setVisible(false);
+        IngredienteTXT.setEditable(false);
+        QuantidadeTXT.setEditable(false);
+        descricaoTXT.setEditable(false);
+        tituloTXT.setEditable(false);
+        guardarAlteracoes.setVisible(false);
+        updatePreparacao.setVisible(false);
+        preparacao.setVisible(true);
+        EditarPrato.setVisible(true);
+        JOptionPane.showMessageDialog(this, "Modification completed successfully!");
     }//GEN-LAST:event_guardarAlteracoesActionPerformed
 
     private void preparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preparacaoActionPerformed
@@ -489,6 +510,7 @@ public class ViewPlate extends javax.swing.JFrame {
         guardarAlteracoes.setVisible(true);
         preparacao.setVisible(false);
         updatePreparacao.setVisible(true);
+        EditarPrato.setVisible(false);
     }
 
     private void updatePrato() throws SQLException, FileNotFoundException {
@@ -496,14 +518,17 @@ public class ViewPlate extends javax.swing.JFrame {
         GraphDB graphDB = new GraphDB();
         ImgDB imgDB = new ImgDB();
         
-        if (!(pratoOriginal.getNome().equals(tituloTXT.getText())) || !(pratoOriginal.getDescricao().equals(descricaoTXT.getText())))
+        if (!(pratoOriginal.getNome().equals(tituloTXT.getText())) || !(pratoOriginal.getDescricao().equals(descricaoTXT.getText()))) {
+            updatePratoOriginal();
             relDB.updatePrato(idPrato,tituloTXT.getText(),descricaoTXT.getText());
-        if (!(pratoOriginal.getAlimentos().containsAll(ingredientes)) || !(pratoOriginal.getQuantidades().containsAll(quantidades))) {
-            Prato prato = pratoOriginal;
-            prato.setAlimentos(ingredientes);
-            prato.setQuantidades(quantidades);
-            graphDB.updatePratoGraph(idPrato,prato);
         }
+        if (updateGraph)
+            graphDB.updatePratoGraph(idPrato,pratoOriginal);
         imgDB.updatePratoImg(idPrato,imagem);
+    }
+
+    private void updatePratoOriginal() {
+        pratoOriginal.setNome(tituloTXT.getText());
+        pratoOriginal.setDescricao(descricaoTXT.getText());
     }
 }

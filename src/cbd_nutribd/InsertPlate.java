@@ -6,12 +6,12 @@
 package cbd_nutribd;
 
 import Data.Prato;
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 
 /**
  *
@@ -30,7 +30,7 @@ public class InsertPlate extends javax.swing.JFrame {
     public InsertPlate() {
         initComponents();
         this.setTitle("Inserir prato");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        listaIngredientes.setFont( new Font("monospaced", Font.PLAIN, 12) );
         atualizar.setVisible(false);
         eliminar.setVisible(false);
     }
@@ -117,7 +117,7 @@ public class InsertPlate extends javax.swing.JFrame {
 
         jLabel6.setText("Adicionar Imagem");
 
-        imagemDiretorio.setText("Nada adicionado");
+        imagemDiretorio.setText("Nada alterado");
 
         eliminar.setText("Eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -246,8 +246,8 @@ public class InsertPlate extends javax.swing.JFrame {
         } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(InsertPlate.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(this, "Plate successfully created!");
-        this.dispose();*/
+        JOptionPane.showMessageDialog(this, "Plate successfully created!");*/
+        this.dispose();
     }//GEN-LAST:event_ProximoPassoActionPerformed
 
     private void AdicionarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarIngredienteActionPerformed
@@ -276,7 +276,7 @@ public class InsertPlate extends javax.swing.JFrame {
         if (evt.getClickCount() == 1) {
             int i = -1;
             String p = listaIngredientes.getSelectedValue();
-            String[] split = p.split(" ");
+            String[] split = p.split("    ");
             index = ingredientes.indexOf(split[0]);
             IngredienteTXT.setText(split[0]);
             QuantidadeTXT.setText(quantidades.get(index));

@@ -11,7 +11,6 @@ import DB.ImgDB;
 import DB.RelationalDB;
 import Data.Prato;
 import java.awt.Font;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +229,9 @@ public class PratoSearch extends javax.swing.JFrame {
             }
             searchBtn.doClick();
             JOptionPane.showMessageDialog(this, "Plate successfully deleted!");
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "It is necessary to select a dish to eliminate!");
         }
        
     }//GEN-LAST:event_eliminarPratoActionPerformed

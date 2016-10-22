@@ -57,7 +57,7 @@ public class Prato {
         this.tempo = tempo;
         this.doses = doses;
     }
-    
+
     public Prato(int id, String cozinha, String dificuldade, String tempo, int doses, String preparacao) {
         this.ID = id;
         this.cozinha = cozinha;
@@ -151,7 +151,7 @@ public class Prato {
     public void setDoses(int doses) {
         this.doses = doses;
     }
-
+    
     public String getPreparacao() {
         return preparacao;
     }

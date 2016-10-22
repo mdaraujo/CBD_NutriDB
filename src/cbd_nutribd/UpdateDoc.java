@@ -50,7 +50,7 @@ public class UpdateDoc extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         TempoTXT = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        DificuldadeTXT3 = new javax.swing.JTextField();
+        DificuldadeTXT = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         editar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -66,9 +66,9 @@ public class UpdateDoc extends javax.swing.JFrame {
 
         jLabel6.setText("Dificuldade");
 
-        DificuldadeTXT3.addActionListener(new java.awt.event.ActionListener() {
+        DificuldadeTXT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DificuldadeTXT3ActionPerformed(evt);
+                DificuldadeTXTActionPerformed(evt);
             }
         });
 
@@ -108,7 +108,7 @@ public class UpdateDoc extends javax.swing.JFrame {
                                 .addComponent(CozinhaTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                                 .addComponent(DoseTXT)
                                 .addComponent(TempoTXT)
-                                .addComponent(DificuldadeTXT3)))
+                                .addComponent(DificuldadeTXT)))
                         .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -134,7 +134,7 @@ public class UpdateDoc extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(DificuldadeTXT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(editar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -143,16 +143,17 @@ public class UpdateDoc extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DificuldadeTXT3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXT3ActionPerformed
+    private void DificuldadeTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_DificuldadeTXT3ActionPerformed
+    }//GEN-LAST:event_DificuldadeTXTActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         DocDB docDB = new DocDB();
-        if (!(plate.getDificuldade().equals(DificuldadeTXT3.getText())) || !(plate.getTempo().equals(TempoTXT.getText())) 
+        if (!(plate.getDificuldade().equals(DificuldadeTXT.getText())) || !(plate.getTempo().equals(TempoTXT.getText())) 
                 || (plate.getDoses() != Integer.parseInt(DoseTXT.getText())) || !(plate.getCozinha().equals(CozinhaTXT.getText()))
                 || !(plate.getPreparacao().equals(PreparacaoTXT.getText()))) {
             try {
+                updatePlate();
                 docDB.updatePratoDoc(plate);
             } catch (SQLException | FileNotFoundException ex) {
                 Logger.getLogger(UpdateDoc.class.getName()).log(Level.SEVERE, null, ex);
@@ -200,9 +201,6 @@ public class UpdateDoc extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CozinhaTXT;
     private javax.swing.JTextField DificuldadeTXT;
-    private javax.swing.JTextField DificuldadeTXT1;
-    private javax.swing.JTextField DificuldadeTXT2;
-    private javax.swing.JTextField DificuldadeTXT3;
     private javax.swing.JTextField DoseTXT;
     private javax.swing.JTextArea PreparacaoTXT;
     private javax.swing.JTextField TempoTXT;
@@ -219,10 +217,19 @@ public class UpdateDoc extends javax.swing.JFrame {
         DocDB docDB = new DocDB();
         Prato prato = docDB.getPrato(plate.getID());
         plate = prato;
-        DificuldadeTXT3.setText(prato.getDificuldade());
+        DificuldadeTXT.setText(prato.getDificuldade());
         DoseTXT.setText(Integer.toString(prato.getDoses()));
         CozinhaTXT.setText(prato.getCozinha());
         TempoTXT.setText(prato.getTempo());
         PreparacaoTXT.setText(prato.getPreparacao());
+    }
+
+    private void updatePlate() {
+        plate.setDificuldade(DificuldadeTXT.getText());
+        plate.setDoses(Integer.parseInt(DoseTXT.getText()));
+        plate.setCozinha(CozinhaTXT.getText());
+        plate.setTempo(TempoTXT.getText());
+        plate.setPreparacao(PreparacaoTXT.getText());
+
     }
 }

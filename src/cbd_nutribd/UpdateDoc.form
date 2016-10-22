@@ -41,7 +41,7 @@
                               <Component id="CozinhaTXT" alignment="0" pref="244" max="32767" attributes="0"/>
                               <Component id="DoseTXT" alignment="0" max="32767" attributes="0"/>
                               <Component id="TempoTXT" alignment="0" max="32767" attributes="0"/>
-                              <Component id="DificuldadeTXT3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="DificuldadeTXT" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -76,7 +76,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="DificuldadeTXT3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="DificuldadeTXT" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="editar" min="-2" max="-2" attributes="0"/>
@@ -105,9 +105,9 @@
         <Property name="text" type="java.lang.String" value="Dificuldade"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="DificuldadeTXT3">
+    <Component class="javax.swing.JTextField" name="DificuldadeTXT">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DificuldadeTXT3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DificuldadeTXTActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
