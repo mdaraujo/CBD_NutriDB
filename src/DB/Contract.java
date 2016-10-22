@@ -22,7 +22,7 @@ public class Contract {
     public static final String RELACIONALDB = "NutriDB_Relational";
     //tables
     public static final String PratoTable = "Pratos";
-    public static final String IngredienteTable = "Alimentos";
+    public static final String AlimentoTable = "Alimentos";
     /* DB Documents*/
     public static final String DOCUMENTDB = "NutriDB_Docs";
     //tables

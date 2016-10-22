@@ -76,7 +76,7 @@ public class RelationalDB {
         try {
             dbConnection = getDBConnection();
             st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            String query = "select ID from " + Contract.IngredienteTable + " where Nome='" + nome + "'";
+            String query = "select ID from " + Contract.AlimentoTable + " where Nome='" + nome + "'";
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
@@ -140,7 +140,7 @@ public class RelationalDB {
         PreparedStatement st = null;
         try {
             dbConnection = getDBConnection();
-            String query = "insert into " + Contract.IngredienteTable + " (Nome) values (?)";
+            String query = "insert into " + Contract.AlimentoTable + " (Nome) values (?)";
             st = dbConnection.prepareStatement(query);
             st.setString(1,nome);
             st.executeUpdate();
@@ -158,6 +158,145 @@ public class RelationalDB {
                 dbConnection.close();
             }
         }
+    }
+    
+    public boolean addAlimento(Alimento alimento) throws SQLException {
+
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            String query = "insert into " + Contract.AlimentoTable + " (Nome, Humidade_perc, Energia_kcal, Proteina_g, Lipidos_g, Colestrol_mg, HidratosDeCarb_g, FibraAlimentar_g, Categoria) values(?,?,?,?,?,?,?,?,?)";
+            st = dbConnection.prepareStatement(query);
+            st.setString(1, alimento.getNome());
+            st.setFloat(2, alimento.getHumidade());
+            st.setInt(3, alimento.getEnergia());
+            st.setFloat(4, alimento.getProteina());
+            st.setFloat(5, alimento.getLipidos());
+            st.setInt(6, alimento.getColestrol());
+            st.setFloat(7, alimento.getHidratos());
+            st.setFloat(8, alimento.getFibra());
+            st.setString(9, alimento.getCategoria());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+    
+    public boolean updateAlimento(Alimento alimento) throws SQLException {
+
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            String query = "UPDATE " + Contract.AlimentoTable + " SET Nome=?, Humidade_perc=?, Energia_kcal=?, Proteina_g=?, Lipidos_g=?, Colestrol_mg=?, HidratosDeCarb_g=?, FibraAlimentar_g=?, Categoria=? WHERE ID=?";
+            st = dbConnection.prepareStatement(query);
+            st.setInt(10, alimento.getID());
+            st.setString(1, alimento.getNome());
+            st.setFloat(2, alimento.getHumidade());
+            st.setInt(3, alimento.getEnergia());
+            st.setFloat(4, alimento.getProteina());
+            st.setFloat(5, alimento.getLipidos());
+            st.setInt(6, alimento.getColestrol());
+            st.setFloat(7, alimento.getHidratos());
+            st.setFloat(8, alimento.getFibra());
+            st.setString(9, alimento.getCategoria());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+    
+    public boolean deleteAlimento(int id) throws SQLException {
+
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        try {
+            dbConnection = getDBConnection();
+            String query = "DELETE FROM " + Contract.AlimentoTable + " WHERE ID=?";
+            st = dbConnection.prepareStatement(query);
+            st.setInt(1, id);
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+    }
+    
+    public Alimento getAlimento(int id) throws SQLException {
+
+        Connection dbConnection = null;
+        PreparedStatement st = null;
+        Alimento alimento = null;
+
+        try {
+            dbConnection = getDBConnection();
+            String query = "SELECT * FROM Alimentos WHERE ID = ?";
+            st = dbConnection.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                String nome = rs.getString("Nome");
+                float humidade = rs.getFloat("Humidade_perc");
+                int energia = rs.getInt("Energia_kcal");
+                float proteina = rs.getFloat("Proteina_g");
+                float lipidos = rs.getFloat("Lipidos_g");
+                int colestrol = rs.getInt("Colestrol_mg");
+                float hidratos = rs.getFloat("HidratosDeCarb_g");
+                float fibra = rs.getFloat("FibraAlimentar_g");
+                String categoria = rs.getString("Categoria");
+                
+                alimento = new Alimento(id, nome, humidade, energia, proteina, lipidos, colestrol, hidratos, fibra, categoria);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                st.close();
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+
+        return alimento;
     }
     
     /* obter informações sobre o prato */
@@ -321,7 +460,7 @@ public class RelationalDB {
             
             dbConnection = getDBConnection();
             st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM "+Contract.IngredienteTable+" WHERE ID ="+id;
+            String query = "SELECT * FROM "+Contract.AlimentoTable+" WHERE ID ="+id;
             ResultSet rs = st.executeQuery(query);
             
             

@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
@@ -26,11 +28,15 @@ public class AlimentoSearch extends javax.swing.JFrame {
     /**
      * Creates new form AlimentoSearch
      */
+    int idx;
+    
     public AlimentoSearch() {
         initComponents();
-
+        
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
-
+        
+        idx = -1;
+        
         searchBtn.doClick();
     }
 
@@ -73,6 +79,8 @@ public class AlimentoSearch extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         categoriaInput = new javax.swing.JTextField();
+        createBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +121,20 @@ public class AlimentoSearch extends javax.swing.JFrame {
         jLabel10.setText("MIN");
 
         jLabel11.setText("Categoria");
+
+        createBtn.setText("Create");
+        createBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,15 +190,25 @@ public class AlimentoSearch extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoriaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113)
-                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoriaInput))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(createBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(195, 195, 195)
+                                .addComponent(deleteBtn)))
+                        .addGap(0, 421, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,15 +216,23 @@ public class AlimentoSearch extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(categoriaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel11)
+                                .addComponent(categoriaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(createBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteBtn)))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,8 +275,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fibraMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fibraMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -246,57 +285,61 @@ public class AlimentoSearch extends javax.swing.JFrame {
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
 
-        String query = "SELECT * FROM Alimentos WHERE Nome LIKE '%" + nomeInput.getText() + "%' AND Categoria LIKE '%" + categoriaInput.getText() + "%' ";
-
+        String query = "SELECT * FROM Alimentos WHERE Nome LIKE '%" + nomeInput.getText() + "%'";
+        
+        if (!categoriaInput.getText().isEmpty()) {
+            query += "AND Categoria LIKE '%" + categoriaInput.getText() + "%' ";
+        }
+        
         if (!humidadeMin.getText().isEmpty()) {
             query += "AND Humidade_perc >= " + humidadeMin.getText();
         }
         if (!humidadeMax.getText().isEmpty()) {
             query += "AND Humidade_perc <= " + humidadeMax.getText();
         }
-
+        
         if (!energiaMin.getText().isEmpty()) {
             query += "AND Energia_kcal >= " + energiaMin.getText();
         }
         if (!energiaMax.getText().isEmpty()) {
             query += "AND Energia_kcal <= " + energiaMax.getText();
         }
-
+        
         if (!proteinaMin.getText().isEmpty()) {
             query += "AND Proteina_g >= " + proteinaMin.getText();
         }
         if (!proteinaMax.getText().isEmpty()) {
             query += "AND Proteina_g <= " + proteinaMax.getText();
         }
-
+        
         if (!lipidosMin.getText().isEmpty()) {
             query += "AND Lipidos_g >= " + lipidosMin.getText();
         }
         if (!lipidosMax.getText().isEmpty()) {
             query += "AND Lipidos_g <= " + lipidosMax.getText();
         }
-
+        
         if (!colestrolMin.getText().isEmpty()) {
             query += "AND Colestrol_mg >= " + colestrolMin.getText();
         }
         if (!colestrolMax.getText().isEmpty()) {
             query += "AND Colestrol_mg <= " + colestrolMax.getText();
         }
-
+        
         if (!hidratosMin.getText().isEmpty()) {
             query += "AND HidratosDeCarb_g >= " + hidratosMin.getText();
         }
         if (!hidratosMax.getText().isEmpty()) {
             query += "AND HidratosDeCarb_g <= " + hidratosMax.getText();
         }
-
+        
         if (!fibraMin.getText().isEmpty()) {
             query += "AND FibraAlimentar_g >= " + fibraMin.getText();
         }
         if (!fibraMax.getText().isEmpty()) {
             query += "AND FibraAlimentar_g <= " + fibraMax.getText();
         }
-
+        
         try {
             RelationalDB relDB = new RelationalDB();
             DefaultListModel listModel = relDB.selectAlimentos(query);
@@ -307,21 +350,39 @@ public class AlimentoSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
-
+        
+        String p = list.getSelectedValue();
+        
+        Matcher matcher = Pattern.compile("\\d+").matcher(p);
+        if (matcher.find()) {
+            idx = Integer.valueOf(matcher.group());
+        }
+        
         if (evt.getClickCount() == 2) {
-            int i = -1;
-            String p = list.getSelectedValue();
-
-            Matcher matcher = Pattern.compile("\\d+").matcher(p);
-            if (matcher.find()) {
-                i = Integer.valueOf(matcher.group());
-            }
-
-            AlimentoEdit editFrame = new AlimentoEdit(i);
-
+            
+            AlimentoEdit editFrame = new AlimentoEdit(idx);
+            
             editFrame.setVisible(true);
         }
     }//GEN-LAST:event_listMouseClicked
+
+    private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
+        
+        AlimentoCreate createFrame = new AlimentoCreate();
+        createFrame.setVisible(true);
+    }//GEN-LAST:event_createBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        
+        try {
+            RelationalDB relDB = new RelationalDB();
+            relDB.deleteAlimento(idx);
+        } catch (SQLException ex) {
+            System.out.print(ex);
+        }
+        
+        searchBtn.doClick();
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,6 +423,8 @@ public class AlimentoSearch extends javax.swing.JFrame {
     private javax.swing.JTextField categoriaInput;
     private javax.swing.JTextField colestrolMax;
     private javax.swing.JTextField colestrolMin;
+    private javax.swing.JButton createBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField energiaMax;
     private javax.swing.JTextField energiaMin;
     private javax.swing.JTextField fibraMax;

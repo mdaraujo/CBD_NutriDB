@@ -5,81 +5,26 @@
  */
 package cbd_nutribd;
 
+import DB.Contract;
 import DB.RelationalDB;
 import Data.Alimento;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Miguel
  */
-public class AlimentoEdit extends javax.swing.JFrame {
+public class AlimentoCreate extends javax.swing.JFrame {
 
-    private int id;
-
-    /**
-     * Creates new form AlimentoEdit
-     *
-     * @param id
-     */
-    public AlimentoEdit(int id) {
+    public AlimentoCreate() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        this.id = id;
-
-        fillInputs();
-
-        disableInputs();
-    }
-
-    private AlimentoEdit() {
-        initComponents();
-    }
-
-    private void fillInputs() {
-        RelationalDB relDB = new RelationalDB();
-        try {
-            Alimento alimento = relDB.getAlimento(id);
-            nomeInput.setText(alimento.getNome());
-            categoriaInput.setText(alimento.getCategoria());
-            humidadeInput.setText(alimento.getHumidade() + "");
-            energiaInput.setText(alimento.getEnergia() + "");
-            proteinaInput.setText(alimento.getProteina() + "");
-            lipidosInput.setText(alimento.getLipidos() + "");
-            colestrolInput.setText(alimento.getColestrol() + "");
-            hidratosInput.setText(alimento.getHidratos() + "");
-            fibraInput.setText(alimento.getFibra() + "");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private void disableInputs() {
-        nomeInput.setEditable(false);
-        categoriaInput.setEditable(false);
-        humidadeInput.setEditable(false);
-        energiaInput.setEditable(false);
-        proteinaInput.setEditable(false);
-        lipidosInput.setEditable(false);
-        colestrolInput.setEditable(false);
-        hidratosInput.setEditable(false);
-        fibraInput.setEditable(false);
-    }
-    
-    private void enableInputs() {
-        nomeInput.setEditable(true);
-        categoriaInput.setEditable(true);
-        humidadeInput.setEditable(true);
-        energiaInput.setEditable(true);
-        proteinaInput.setEditable(true);
-        lipidosInput.setEditable(true);
-        colestrolInput.setEditable(true);
-        hidratosInput.setEditable(true);
-        fibraInput.setEditable(true);
     }
 
     /**
@@ -109,7 +54,6 @@ public class AlimentoEdit extends javax.swing.JFrame {
         categoriaInput = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         nomeInput = new javax.swing.JTextField();
-        editBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -131,13 +75,6 @@ public class AlimentoEdit extends javax.swing.JFrame {
         jLabel11.setText("Categoria");
 
         jLabel1.setText("Nome");
-
-        editBtn.setText("Edit");
-        editBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBtnActionPerformed(evt);
-            }
-        });
 
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -180,9 +117,7 @@ public class AlimentoEdit extends javax.swing.JFrame {
                             .addComponent(humidadeInput, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                             .addComponent(fibraInput))
                         .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(editBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))))
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -230,8 +165,6 @@ public class AlimentoEdit extends javax.swing.JFrame {
                             .addComponent(fibraInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)))
                 .addContainerGap())
@@ -240,38 +173,79 @@ public class AlimentoEdit extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        // TODO add your handling code here:
-        enableInputs();
-    }//GEN-LAST:event_editBtnActionPerformed
-
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        // TODO add your handling code here:
-        disableInputs();
-        
-        Alimento alimento = null ;
-        try {
-             alimento = new Alimento(id, nomeInput.getText(), Float.parseFloat(humidadeInput.getText()), 
-                Integer.parseInt(energiaInput.getText()), Float.parseFloat(proteinaInput.getText()), 
-                Float.parseFloat(lipidosInput.getText()), Integer.parseInt(colestrolInput.getText()),
-                Float.parseFloat(hidratosInput.getText()), Float.parseFloat(fibraInput.getText()),
-                categoriaInput.getText());
-        } catch (Exception ex) {
-            System.out.println(ex);
-            fillInputs();
-        }
-        
-        
+     
         RelationalDB relDB = new RelationalDB();
+        Connection dbConnection = null;
+        PreparedStatement st = null;
         try {
-            relDB.updateAlimento(alimento);
-        } catch (SQLException ex) {
-            System.out.println(ex);
+            dbConnection = relDB.getDBConnection();
+            String query = "insert into " + Contract.AlimentoTable + " (Nome, Humidade_perc, Energia_kcal, Proteina_g, Lipidos_g, Colestrol_mg, HidratosDeCarb_g, FibraAlimentar_g, Categoria) values(?,?,?,?,?,?,?,?,?)";
+            st = dbConnection.prepareStatement(query);
+            st.setString(1, nomeInput.getText());
+            
+            if(humidadeInput.getText().isEmpty())
+                st.setNull(2, java.sql.Types.FLOAT);
+            else
+                st.setFloat(2, Float.parseFloat(humidadeInput.getText()));
+            
+            if(energiaInput.getText().isEmpty())
+                st.setNull(3, java.sql.Types.INTEGER);
+            else
+                st.setInt(3, Integer.parseInt(energiaInput.getText()));
+            
+            if(proteinaInput.getText().isEmpty())
+                st.setNull(4, java.sql.Types.FLOAT);
+            else
+                st.setFloat(4, Float.parseFloat(proteinaInput.getText()));
+            
+            if(lipidosInput.getText().isEmpty())
+                st.setNull(5, java.sql.Types.FLOAT);
+            else
+                st.setFloat(5, Float.parseFloat(lipidosInput.getText()));
+            
+            if(colestrolInput.getText().isEmpty())
+                st.setNull(6, java.sql.Types.INTEGER);
+            else
+                st.setInt(6, Integer.parseInt(colestrolInput.getText()));
+            
+            if(hidratosInput.getText().isEmpty())
+                st.setNull(7, java.sql.Types.FLOAT);
+            else
+                st.setFloat(7, Float.parseFloat(hidratosInput.getText()));
+            
+            if(fibraInput.getText().isEmpty())
+                st.setNull(8, java.sql.Types.FLOAT);
+            else
+                st.setFloat(8, Float.parseFloat(fibraInput.getText()));
+            
+            st.setString(9, categoriaInput.getText());
+            
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
         
-        fillInputs();
+        setVisible(false);
+        dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */
@@ -289,20 +263,21 @@ public class AlimentoEdit extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AlimentoEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AlimentoCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AlimentoEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AlimentoCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AlimentoEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AlimentoCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AlimentoEdit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AlimentoCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AlimentoEdit().setVisible(true);
+                new AlimentoCreate().setVisible(true);
             }
         });
     }
@@ -310,7 +285,6 @@ public class AlimentoEdit extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField categoriaInput;
     private javax.swing.JTextField colestrolInput;
-    private javax.swing.JButton editBtn;
     private javax.swing.JTextField energiaInput;
     private javax.swing.JTextField fibraInput;
     private javax.swing.JTextField hidratosInput;
