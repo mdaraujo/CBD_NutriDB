@@ -32,7 +32,7 @@ public class ViewPlate extends javax.swing.JFrame {
     private String imagem;
     private DefaultListModel dlm = new DefaultListModel();
     private int index;
-    private int idPrato = 23;
+    private int idPrato = 15;
     private Prato pratoOriginal;
     private boolean updateGraph = false;
     

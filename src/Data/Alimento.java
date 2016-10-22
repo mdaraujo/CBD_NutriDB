@@ -20,8 +20,10 @@ public class Alimento {
     private int colestrol;
     private float hidratos;
     private float fibra;
+    private String categoria;
 
-    public Alimento(int ID, String nome, float humidade, int energia, float proteina, float lipidos, int colestrol, float hidratos, float fibra) {
+    public Alimento(int ID, String nome, float humidade, int energia, float proteina, float lipidos, int colestrol, float hidratos, float fibra, String categoria) {
+
         this.ID = ID;
         this.nome = nome;
         this.humidade = humidade;
@@ -31,11 +33,12 @@ public class Alimento {
         this.colestrol = colestrol;
         this.hidratos = hidratos;
         this.fibra = fibra;
+        this.categoria = categoria;
     }
 
     @Override
     public String toString() {
-        return String.format("%-4d %-70s %-8.2f %-6d %-8.2f %-7.2f %-9d %-8.2f %-7.2f", ID, nome, humidade, energia, proteina, lipidos, colestrol, hidratos, fibra);
+        return String.format("%-4d %-70s %-8.2f %-6d %-8.2f %-7.2f %-9d %-8.2f %-7.2f %-20s", ID, nome, humidade, energia, proteina, lipidos, colestrol, hidratos, fibra, categoria);
     }
 
     public int getID() {
@@ -110,4 +113,11 @@ public class Alimento {
         this.fibra = fibra;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }

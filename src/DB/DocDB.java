@@ -180,12 +180,12 @@ public class DocDB {
     public void deletePratoDoc(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
-        PreparedStatement st = null;
+        Statement st = null;
         try {
             dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.DOCUMENTTable + " WHERE ID="+id;
-            st = dbConnection.prepareStatement(query);
-            st.executeQuery();     
+            st = dbConnection.createStatement();
+            st.execute(query);     
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());

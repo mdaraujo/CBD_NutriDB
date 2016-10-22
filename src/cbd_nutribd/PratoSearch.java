@@ -26,15 +26,17 @@ import javax.swing.JOptionPane;
  * @author Miguel
  */
 public class PratoSearch extends javax.swing.JFrame {
+
     private int id = -1;
+
     /**
      * Creates new form PratoSearch
      */
     public PratoSearch() {
         initComponents();
-        
-        list.setFont( new Font("monospaced", Font.PLAIN, 12) );
-        
+
+        list.setFont(new Font("monospaced", Font.PLAIN, 12));
+
         searchBtn.doClick();
     }
 
@@ -174,42 +176,46 @@ public class PratoSearch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        
+
         DefaultListModel listModel = new DefaultListModel();
         String header = String.format("%-3s %-70s %-11s %-8s %-5s %-20s", "ID", "NOME", "DIFICULDADE", "TEMPO", "DOSES", "COZINHA");
         listModel.addElement(header);
-        
+
         List<Prato> pratosInDocs = getListInDocs();
         List<Prato> pratosInRel = getListInRelational();
-        
+
         for (int i = 0; i < pratosInDocs.size(); i++) {
             for (int j = 0; j < pratosInRel.size(); j++) {
                 if (pratosInDocs.get(i).getID() == pratosInRel.get(j).getID()) {
-                    Prato prato = new Prato(pratosInRel.get(j).getID(), pratosInRel.get(j).getNome(), 
-                            pratosInRel.get(j).getDescricao(), pratosInDocs.get(i).getCozinha(), 
-                            pratosInDocs.get(i).getDificuldade(), pratosInDocs.get(i).getTempo(), 
+                    Prato prato = new Prato(pratosInRel.get(j).getID(), pratosInRel.get(j).getNome(),
+                            pratosInRel.get(j).getDescricao(), pratosInDocs.get(i).getCozinha(),
+                            pratosInDocs.get(i).getDificuldade(), pratosInDocs.get(i).getTempo(),
                             pratosInDocs.get(i).getDoses());
-                    
+
                     listModel.addElement(prato.toString());
                 }
             }
         }
-        
+
         list.setModel(listModel);
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
-        
-        if (evt.getClickCount() == 2) {
-            int i = -1;
-            String p = list.getSelectedValue();
-            
-            Matcher matcher = Pattern.compile("\\d+").matcher(p);
-            if (matcher.find())
-                i = Integer.valueOf(matcher.group());
-            
-            System.out.println(i);
-            id = i;
+        int i = -1;
+        String p = list.getSelectedValue();
+
+        Matcher matcher = Pattern.compile("\\d+").matcher(p);
+        if (matcher.find()) {
+            i = Integer.valueOf(matcher.group());
+        }
+
+        id = i;
+
+        if (evt.getClickCount() == 2 && id != -1) {
+
+            ViewPlate viewPlate = new ViewPlate(i);
+
+            viewPlate.setVisible(true);
         }
     }//GEN-LAST:event_listMouseClicked
 
@@ -229,23 +235,21 @@ public class PratoSearch extends javax.swing.JFrame {
             }
             searchBtn.doClick();
             JOptionPane.showMessageDialog(this, "Plate successfully deleted!");
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "It is necessary to select a dish to eliminate!");
         }
-       
+
     }//GEN-LAST:event_eliminarPratoActionPerformed
 
-    public List<Prato> getListInDocs()
-    {
-        String query = "SELECT\n" +
-                        "Doc.value('(/prato//id/node())[1]', 'nvarchar(max)') as id,\n" +
-                        "Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') as cozinha,\n" +
-                        "Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') as dif,\n" +
-                        "Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') as tempo,\n" +
-                        "Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') as doses\n" +
-                        "FROM Prato_Doc WHERE 1=1 ";
-        
+    public List<Prato> getListInDocs() {
+        String query = "SELECT\n"
+                + "Doc.value('(/prato//id/node())[1]', 'nvarchar(max)') as id,\n"
+                + "Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') as cozinha,\n"
+                + "Doc.value('(/prato//Dificuldade/node())[1]', 'nvarchar(max)') as dif,\n"
+                + "Doc.value('(/prato//Tempo/node())[1]', 'nvarchar(max)') as tempo,\n"
+                + "Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') as doses\n"
+                + "FROM Prato_Doc WHERE 1=1 ";
+
         if (!cozinhaInput.getSelectedItem().toString().equals("*")) {
             query += "AND Doc.value('(/prato//Cozinha/node())[1]', 'nvarchar(max)') = '" + cozinhaInput.getSelectedItem().toString() + "' ";
         }
@@ -258,33 +262,32 @@ public class PratoSearch extends javax.swing.JFrame {
         if (!dosesInput.getValue().toString().equals("0")) {
             query += "AND Doc.value('(/prato//Doses/node())[1]', 'nvarchar(max)') = '" + dosesInput.getValue().toString() + "' ";
         }
-        
+
         DocDB docDB = new DocDB();
         List<Prato> pratos = new ArrayList<>();
         try {
             pratos = docDB.selectPratos(query);
         } catch (SQLException e) {
-             System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
-        
+
         return pratos;
     }
-    
-    public List<Prato> getListInRelational()
-    {
+
+    public List<Prato> getListInRelational() {
         String query = "SELECT * FROM Pratos WHERE Nome LIKE '%" + nomeInput.getText() + "%'";
-        
+
         RelationalDB relDB = new RelationalDB();
         List<Prato> pratos = new ArrayList<>();
         try {
             pratos = relDB.selectPratos(query);
         } catch (SQLException e) {
-             System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
-        
+
         return pratos;
     }
-    
+
     /**
      * @param args the command line arguments
      */

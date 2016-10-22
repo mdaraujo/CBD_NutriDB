@@ -244,7 +244,7 @@ public class RelationalDB {
         Statement st = null;
         DefaultListModel listModel = new DefaultListModel();
 
-        String header = String.format("%-4s %-70s %-8s %-6s %-8s %-7s %-9s %-8s %-7s", "ID", "NOME", "HUMIDADE", "ENEGIA", "PROTEINA", "LIPIDOS", "COLESTROL", "HIDRATOS", "FIBRA");
+        String header = String.format("%-4s %-70s %-8s %-6s %-8s %-7s %-9s %-8s %-7s %-20s", "ID", "NOME", "HUMIDADE", "ENEGIA", "PROTEINA", "LIPIDOS", "COLESTROL", "HIDRATOS", "FIBRA", "CATEGORIA");
         listModel.addElement(header);
         
         try {
@@ -252,7 +252,6 @@ public class RelationalDB {
             dbConnection = getDBConnection();
             st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = st.executeQuery(selectSQL);
-
             while (rs.next()) {
 
                 int id = rs.getInt("ID");
@@ -264,9 +263,9 @@ public class RelationalDB {
                 int colestrol = rs.getInt("Colestrol_mg");
                 float hidratos = rs.getFloat("HidratosDeCarb_g");
                 float fibra = rs.getFloat("FibraAlimentar_g");
-
-                Alimento alimento = new Alimento(id, nome, humidade, energia, proteina, lipidos, colestrol, hidratos, fibra);
-
+                String categoria = rs.getString("Categoria");
+                
+                Alimento alimento = new Alimento(id, nome, humidade, energia, proteina, lipidos, colestrol, hidratos, fibra, categoria);
                 listModel.addElement(alimento.toString());
             }
 
@@ -291,12 +290,12 @@ public class RelationalDB {
     public void deletePratoRelational(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
-        PreparedStatement st = null;
+        Statement st = null;
         try {
             dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.PratoTable + " WHERE ID="+id;
-            st = dbConnection.prepareStatement(query);
-            st.executeQuery();      
+            st = dbConnection.createStatement();
+            st.execute(query);      
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
