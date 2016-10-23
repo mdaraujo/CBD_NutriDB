@@ -124,7 +124,7 @@ public class ViewPlate extends javax.swing.JFrame {
 
         jLabel6.setText("Adicionar Imagem");
 
-        imagemDiretorio.setText("Nada adicionado");
+        imagemDiretorio.setText("Nada Alterado");
 
         eliminar.setText("Eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {
