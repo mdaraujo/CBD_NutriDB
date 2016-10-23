@@ -56,11 +56,6 @@ public class ViewPlate extends javax.swing.JFrame {
         tituloTXT.setEditable(false);
         guardarAlteracoes.setVisible(false);
         updatePreparacao.setVisible(false);
-        try {
-            viewPlate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewPlate.class.getName()).log(Level.SEVERE, null, ex);
-        } 
     }
     
     public ViewPlate(int idPrato) {
@@ -213,11 +208,18 @@ public class ViewPlate extends javax.swing.JFrame {
                                         .addGap(51, 51, 51)
                                         .addComponent(ProcurarImagem))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(44, 44, 44)
-                                        .addComponent(IngredienteTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(53, 53, 53)
-                                        .addComponent(QuantidadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel1)
+                                                .addGap(38, 38, 38)
+                                                .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addGap(44, 44, 44)
+                                                .addComponent(IngredienteTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(53, 53, 53)
+                                                .addComponent(QuantidadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(57, 57, 57)
                                         .addComponent(AdicionarIngrediente)))
                                 .addGap(18, 18, 18)
@@ -241,12 +243,7 @@ public class ViewPlate extends javax.swing.JFrame {
                         .addGap(152, 152, 152)
                         .addComponent(jLabel3)
                         .addGap(234, 234, 234)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel1)
-                        .addGap(38, 38, 38)
-                        .addComponent(tituloTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
