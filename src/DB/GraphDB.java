@@ -61,7 +61,6 @@ public class GraphDB {
             if (!existsPratoIng(idPrato,idIngrediente))
                 inserts.add(String.format("insert into "+Contract.GRAPHTable+" values(%d,%d,'%s');", idPrato, idIngrediente, qtd));
         }
-        System.out.println(idIngrediente);
         //adicionar
         
         Connection dbConnection = null;
@@ -69,7 +68,6 @@ public class GraphDB {
         try {
             dbConnection = getDBConnection();
             for (String insert : inserts) {
-                System.out.println(insert);
                 st = dbConnection.prepareStatement(insert);
                 st.executeUpdate();
             }
@@ -117,7 +115,6 @@ public class GraphDB {
                     dbConnection.close();
             }
         }
-        System.out.println(countRows);
         if(countRows!=0){
             exits = true;
         }
@@ -125,19 +122,24 @@ public class GraphDB {
         return exits;
     }
     
-    /* eliminar pratos */
-    public void deletePratoGraph(int id) throws SQLException {
-        String query;
+    public boolean existsIngEmPrato(int idIngrediente) throws SQLException {
         Connection dbConnection = null;
         Statement st = null;
+        int countRows = 0;
+        boolean exits=false;
         try {
             dbConnection = getDBConnection();
-            query = "DELETE FROM "+Contract.GRAPHTable+" WHERE IdPrato="+id;
-            st = dbConnection.createStatement();
-            st.execute(query);       
-                         
+            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            String query = "select idPrato,quantidade from "+Contract.GRAPHTable+" where idIngrediente="+idIngrediente;
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                countRows++;
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            
         } finally {
 
             if (st != null) {
@@ -148,6 +150,65 @@ public class GraphDB {
                     dbConnection.close();
             }
         }
+        if(countRows!=0){
+            exits = true;
+        }
+            
+        return exits;
+    }
+    
+    /* eliminar pratos */
+    public boolean deletePratoGraph(int id) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        Statement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "DELETE FROM "+Contract.GRAPHTable+" WHERE idPrato="+id;
+            st = dbConnection.createStatement();
+            st.execute(query);        
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        return true;
+    }
+    
+    /* eliminar ingrediente */
+    public boolean deleteAlimentoGraph(int id) throws SQLException {
+        String query;
+        Connection dbConnection = null;
+        Statement st = null;
+        try {
+            dbConnection = getDBConnection();
+            query = "DELETE FROM "+Contract.GRAPHTable+" WHERE idIngrediente="+id;
+            st = dbConnection.createStatement();
+            st.execute(query);        
+                         
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+
+            if (st != null) {
+                    st.close();
+            }
+
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
+        }
+        return true;
     }
     
     /**
@@ -242,9 +303,9 @@ public class GraphDB {
     }
 
     /* atualizar prato */
-    public void updatePratoGraph(int idPrato, Prato prato) throws SQLException {
-        deletePratoGraph(idPrato);
-        addPratoGrafosDB(prato);
+    public boolean updatePratoGraph(int idPrato, Prato prato) throws SQLException {
+        boolean update = deletePratoGraph(idPrato);
+        update = addPratoGrafosDB(prato);
+        return update;
     }
-    
 }

@@ -36,7 +36,7 @@ public class PratoSearch extends javax.swing.JFrame {
         initComponents();
 
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
-
+        setTitle("Listagem dos Pratos");
         searchBtn.doClick();
     }
 
@@ -63,6 +63,7 @@ public class PratoSearch extends javax.swing.JFrame {
         tempoInput = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         eliminarPrato = new javax.swing.JButton();
+        Create = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,10 +100,17 @@ public class PratoSearch extends javax.swing.JFrame {
 
         jLabel5.setText("Tempo");
 
-        eliminarPrato.setText("Eliminar Prato");
+        eliminarPrato.setText("Delete");
         eliminarPrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarPratoActionPerformed(evt);
+            }
+        });
+
+        Create.setText("Create");
+        Create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateActionPerformed(evt);
             }
         });
 
@@ -144,6 +152,8 @@ public class PratoSearch extends javax.swing.JFrame {
                         .addGap(21, 21, 21))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Create)
+                        .addGap(36, 36, 36)
                         .addComponent(eliminarPrato)
                         .addGap(58, 58, 58))))
         );
@@ -166,7 +176,9 @@ public class PratoSearch extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(tempoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5))
-                    .addComponent(eliminarPrato, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eliminarPrato)
+                        .addComponent(Create)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
@@ -216,6 +228,7 @@ public class PratoSearch extends javax.swing.JFrame {
             ViewPlate viewPlate = new ViewPlate(i);
 
             viewPlate.setVisible(true);
+            searchBtn.doClick();
         }
     }//GEN-LAST:event_listMouseClicked
 
@@ -225,21 +238,31 @@ public class PratoSearch extends javax.swing.JFrame {
             GraphDB graphDB = new GraphDB();
             ImgDB imgDB = new ImgDB();
             RelationalDB relationalDB = new RelationalDB();
+            boolean deleted = true;
             try {
-                docDB.deletePratoDoc(id);
-                graphDB.deletePratoGraph(id);
-                imgDB.deletePratoImage(id);
-                relationalDB.deletePratoRelational(id);
+                deleted = docDB.deletePratoDoc(id);
+                deleted = graphDB.deletePratoGraph(id);
+                deleted = imgDB.deletePratoImage(id);
+                deleted = relationalDB.deletePratoRelational(id);
             } catch (SQLException ex) {
                 Logger.getLogger(PratoSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
             searchBtn.doClick();
-            JOptionPane.showMessageDialog(this, "Plate successfully deleted!");
+            if (deleted)
+                JOptionPane.showMessageDialog(this, "O prato foi eliminado com sucesso!");
+            else
+                JOptionPane.showMessageDialog(this, "O prato não foi eliminado!");
         } else {
-            JOptionPane.showMessageDialog(this, "It is necessary to select a dish to eliminate!");
+            JOptionPane.showMessageDialog(this, "É necessario selecionar um prato para o eliminar!");
         }
 
     }//GEN-LAST:event_eliminarPratoActionPerformed
+
+    private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
+        InsertPlate createFrame = new InsertPlate();
+        createFrame.setVisible(true);
+        searchBtn.doClick();
+    }//GEN-LAST:event_CreateActionPerformed
 
     public List<Prato> getListInDocs() {
         String query = "SELECT\n"
@@ -324,6 +347,7 @@ public class PratoSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Create;
     private javax.swing.JComboBox<String> cozinhaInput;
     private javax.swing.JComboBox<String> difInput;
     private javax.swing.JSpinner dosesInput;

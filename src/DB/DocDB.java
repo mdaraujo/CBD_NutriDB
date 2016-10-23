@@ -55,7 +55,7 @@ public class DocDB {
     }
     
     /* Inserir prato */
-    public void insertDoc(String doc) throws SQLException {
+    public boolean insertDoc(String doc) throws SQLException {
         int len;
         Connection dbConnection = null;
         PreparedStatement st = null;
@@ -76,6 +76,7 @@ public class DocDB {
  
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
             
         } finally {
             
@@ -87,6 +88,7 @@ public class DocDB {
                     dbConnection.close();
             }
         }
+        return true;
     }
     
     /* obter o documento de um dado prato  */
@@ -177,7 +179,7 @@ public class DocDB {
     }
     
     /* eliminar prato */
-    public void deletePratoDoc(int id) throws SQLException {
+    public boolean deletePratoDoc(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
         Statement st = null;
@@ -189,6 +191,7 @@ public class DocDB {
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -199,10 +202,11 @@ public class DocDB {
                     dbConnection.close();
             }
         }
+        return true;
     }
     
     /* atualizar pratos */
-    public void updatePratoDoc(Prato prato) throws SQLException, FileNotFoundException {
+    public boolean updatePratoDoc(Prato prato) throws SQLException, FileNotFoundException {
         String query;
         Connection dbConnection = null;
         PreparedStatement st = null;
@@ -220,14 +224,15 @@ public class DocDB {
             int len = (int)file.length();
             
             dbConnection = getDBConnection();
-            query = "UPDATE "+ Contract.DOCUMENTTable +" SET Doc=? Where ID=?";
+            query = "UPDATE "+ Contract.DOCUMENTTable +" SET Doc=? WHERE ID=?";
             st = dbConnection.prepareStatement(query);
             st.setBinaryStream(1, fis, len); 
             st.setInt(2, prato.getID());
-            st.executeQuery();
+            st.executeUpdate();
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -238,5 +243,6 @@ public class DocDB {
                 dbConnection.close();
             }
         }
+        return true;
     }
 }

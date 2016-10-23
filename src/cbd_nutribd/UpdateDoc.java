@@ -149,17 +149,22 @@ public class UpdateDoc extends javax.swing.JFrame {
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         DocDB docDB = new DocDB();
+        boolean update = true;
         if (!(plate.getDificuldade().equals(DificuldadeTXT.getText())) || !(plate.getTempo().equals(TempoTXT.getText())) 
                 || (plate.getDoses() != Integer.parseInt(DoseTXT.getText())) || !(plate.getCozinha().equals(CozinhaTXT.getText()))
                 || !(plate.getPreparacao().equals(PreparacaoTXT.getText()))) {
             try {
                 updatePlate();
-                docDB.updatePratoDoc(plate);
+                update = docDB.updatePratoDoc(plate);
+                System.out.println("Update: "+update);
             } catch (SQLException | FileNotFoundException ex) {
                 Logger.getLogger(UpdateDoc.class.getName()).log(Level.SEVERE, null, ex);
             } 
-        }   
-        JOptionPane.showMessageDialog(this, "Modification completed successfully!");
+        }
+        if (update)
+            JOptionPane.showMessageDialog(this, "Prato alterado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "O prato não foi alterado!");
         this.dispose();
     }//GEN-LAST:event_editarActionPerformed
 

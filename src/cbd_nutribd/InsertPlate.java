@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -29,7 +30,8 @@ public class InsertPlate extends javax.swing.JFrame {
      */
     public InsertPlate() {
         initComponents();
-        this.setTitle("Inserir prato");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setTitle("Criar prato");
         listaIngredientes.setFont( new Font("monospaced", Font.PLAIN, 12) );
         atualizar.setVisible(false);
         eliminar.setVisible(false);

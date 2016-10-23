@@ -31,6 +31,7 @@ public class InsertDoc extends javax.swing.JFrame {
     public InsertDoc() {
         initComponents();
         this.setTitle("Inserir Prato");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -147,9 +148,10 @@ public class InsertDoc extends javax.swing.JFrame {
     private void AdicionarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarPratoActionPerformed
         GraphDB graph = new GraphDB();
         ImgDB imgBD = new ImgDB();
+        boolean added = true;
         try {
-            graph.addPratoGrafosDB(plate);
-            imgBD.insertImage(plate.getImagem());
+            added = graph.addPratoGrafosDB(plate);
+            added = imgBD.insertImage(plate.getImagem());
         } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(InsertPlate.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,11 +161,14 @@ public class InsertDoc extends javax.swing.JFrame {
         try {
             id = relational.getIdPrato(plate);
             prepararDocumento(id);
-            docBD.insertDoc("doc"+id);
+            added = docBD.insertDoc("doc"+id);
         } catch (SQLException ex) {
             Logger.getLogger(InsertDoc.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(this, "Plate successfully created!");
+        if (added)
+            JOptionPane.showMessageDialog(this, "Prato criado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "O prato não for criado!");
         this.dispose();
     }//GEN-LAST:event_AdicionarPratoActionPerformed
 

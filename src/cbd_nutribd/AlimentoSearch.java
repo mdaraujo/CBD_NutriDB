@@ -6,6 +6,7 @@
 package cbd_nutribd;
 
 import DB.DocDB;
+import DB.GraphDB;
 import DB.RelationalDB;
 import Data.Prato;
 import java.awt.Font;
@@ -18,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -34,9 +37,8 @@ public class AlimentoSearch extends javax.swing.JFrame {
         initComponents();
         
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
-        
+        setTitle("Listagem dos Alimentos");
         idx = -1;
-        
         searchBtn.doClick();
     }
 
@@ -363,6 +365,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
             AlimentoEdit editFrame = new AlimentoEdit(idx);
             
             editFrame.setVisible(true);
+            searchBtn.doClick();
         }
     }//GEN-LAST:event_listMouseClicked
 
@@ -370,18 +373,38 @@ public class AlimentoSearch extends javax.swing.JFrame {
         
         AlimentoCreate createFrame = new AlimentoCreate();
         createFrame.setVisible(true);
+        
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        
-        try {
-            RelationalDB relDB = new RelationalDB();
-            relDB.deleteAlimento(idx);
-        } catch (SQLException ex) {
-            System.out.print(ex);
+        if (idx != -1) {
+            boolean deleted = true;
+            try {
+                GraphDB graphDB = new GraphDB();
+                if (graphDB.existsIngEmPrato(idx)) {
+                    int result = JOptionPane.showConfirmDialog(null, "O alimento que pretende eliminar esta associado a pratos.\nPrentende elimina-lo na mesma?","Eliminar Alimento?",JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        deleted = graphDB.deleteAlimentoGraph(idx);
+                        RelationalDB relDB = new RelationalDB();
+                        deleted = relDB.deleteAlimento(idx);
+                    }
+                }
+                else {
+                    RelationalDB relDB = new RelationalDB();
+                    deleted = relDB.deleteAlimento(idx);
+                }
+            } catch (SQLException ex) {
+                System.out.print(ex);
+            }
+
+            searchBtn.doClick();
+            if (deleted)
+                JOptionPane.showMessageDialog(this, "O alimento foi eliminado com sucesso!");
+            else
+                JOptionPane.showMessageDialog(this, "O alimento não foi eliminado!");
         }
-        
-        searchBtn.doClick();
+        else
+            JOptionPane.showMessageDialog(this, "É necessario selecionar um alimento para o eliminar!");
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
@@ -453,4 +476,5 @@ public class AlimentoSearch extends javax.swing.JFrame {
     private javax.swing.JTextField proteinaMin;
     private javax.swing.JButton searchBtn;
     // End of variables declaration//GEN-END:variables
+
 }

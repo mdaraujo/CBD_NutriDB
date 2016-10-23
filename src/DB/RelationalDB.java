@@ -146,7 +146,7 @@ public class RelationalDB {
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("addAlimento " + e.getMessage());
+            System.out.println(e.getMessage());
             return false;
         } finally {
 
@@ -160,6 +160,7 @@ public class RelationalDB {
         }
     }
     
+    /* inserir alimentos */
     public boolean addAlimento(Alimento alimento) throws SQLException {
 
         Connection dbConnection = null;
@@ -194,6 +195,7 @@ public class RelationalDB {
         }
     }
     
+    /* atualizar alimento */
     public boolean updateAlimento(Alimento alimento) throws SQLException {
 
         Connection dbConnection = null;
@@ -229,6 +231,7 @@ public class RelationalDB {
         }
     }
     
+    /* eliminar alimento */
     public boolean deleteAlimento(int id) throws SQLException {
 
         Connection dbConnection = null;
@@ -391,6 +394,7 @@ public class RelationalDB {
             dbConnection = getDBConnection();
             st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = st.executeQuery(selectSQL);
+
             while (rs.next()) {
 
                 int id = rs.getInt("ID");
@@ -426,7 +430,7 @@ public class RelationalDB {
     }
     
     /* eliminar prato */
-    public void deletePratoRelational(int id) throws SQLException {
+    public boolean deletePratoRelational(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
         Statement st = null;
@@ -434,10 +438,11 @@ public class RelationalDB {
             dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.PratoTable + " WHERE ID="+id;
             st = dbConnection.createStatement();
-            st.execute(query);      
+            st.execute(query);     
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -448,6 +453,7 @@ public class RelationalDB {
                     dbConnection.close();
             }
         }
+        return true;
     }
     
     /* obter o nome do ingrediente */
@@ -486,21 +492,22 @@ public class RelationalDB {
     }
     
     /* atualizar pratos */
-    public void updatePrato(int idPrato, String nome, String descricao) throws SQLException {
+    public boolean updatePrato(int idPrato, String nome, String descricao) throws SQLException {
         String query;
         Connection dbConnection = null;
         PreparedStatement st = null;
         try {
             dbConnection = getDBConnection();
-            query = "UPDATE "+ Contract.PratoTable +" SET Nome=?,Descricao=? Where ID=?";
+            query = "UPDATE "+ Contract.PratoTable +" SET Nome=?,Descricao=? WHERE ID=?";
             st = dbConnection.prepareStatement(query);
             st.setString(1, nome);
             st.setString(2, descricao);
             st.setInt(3, idPrato);
-            st.executeQuery();
+            st.executeUpdate();
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -511,6 +518,7 @@ public class RelationalDB {
                 dbConnection.close();
             }
         }
+        return true;
     }
     
     // Not Used

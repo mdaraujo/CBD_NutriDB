@@ -291,6 +291,7 @@ public class ViewPlate extends javax.swing.JFrame {
 
     private void EditarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarPratoActionPerformed
         setEnable();
+        this.setTitle("Editar prato");
     }//GEN-LAST:event_EditarPratoActionPerformed
 
     private void ProcurarImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarImagemActionPerformed
@@ -366,8 +367,9 @@ public class ViewPlate extends javax.swing.JFrame {
     }//GEN-LAST:event_AdicionarIngredienteActionPerformed
 
     private void guardarAlteracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarAlteracoesActionPerformed
+        boolean update = true;
         try {
-            updatePrato();
+            update = updatePrato();
         } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(ViewPlate.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -385,7 +387,11 @@ public class ViewPlate extends javax.swing.JFrame {
         updatePreparacao.setVisible(false);
         preparacao.setVisible(true);
         EditarPrato.setVisible(true);
-        JOptionPane.showMessageDialog(this, "Modification completed successfully!");
+        if (update)
+            JOptionPane.showMessageDialog(this, "Prato alterado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "O prato não foi alterado!");
+        this.setTitle("Detalhes do prato");
     }//GEN-LAST:event_guardarAlteracoesActionPerformed
 
     private void preparacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preparacaoActionPerformed
@@ -510,18 +516,20 @@ public class ViewPlate extends javax.swing.JFrame {
         EditarPrato.setVisible(false);
     }
 
-    private void updatePrato() throws SQLException, FileNotFoundException {
+    private boolean updatePrato() throws SQLException, FileNotFoundException {
         RelationalDB relDB = new RelationalDB();
         GraphDB graphDB = new GraphDB();
         ImgDB imgDB = new ImgDB();
-        
+        boolean update = true;
         if (!(pratoOriginal.getNome().equals(tituloTXT.getText())) || !(pratoOriginal.getDescricao().equals(descricaoTXT.getText()))) {
             updatePratoOriginal();
-            relDB.updatePrato(idPrato,tituloTXT.getText(),descricaoTXT.getText());
+            update = relDB.updatePrato(idPrato,tituloTXT.getText(),descricaoTXT.getText());
         }
-        if (updateGraph)
-            graphDB.updatePratoGraph(idPrato,pratoOriginal);
-        imgDB.updatePratoImg(idPrato,imagem);
+        if (updateGraph) {
+            update = graphDB.updatePratoGraph(idPrato,pratoOriginal);
+        }
+        update = imgDB.updatePratoImg(idPrato,imagem);
+        return update;
     }
 
     private void updatePratoOriginal() {

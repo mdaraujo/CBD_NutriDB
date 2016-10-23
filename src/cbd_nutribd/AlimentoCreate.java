@@ -25,6 +25,7 @@ public class AlimentoCreate extends javax.swing.JFrame {
     public AlimentoCreate() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Criar Alimento");
     }
 
     /**
@@ -178,6 +179,7 @@ public class AlimentoCreate extends javax.swing.JFrame {
         RelationalDB relDB = new RelationalDB();
         Connection dbConnection = null;
         PreparedStatement st = null;
+        boolean added = true;
         try {
             dbConnection = relDB.getDBConnection();
             String query = "insert into " + Contract.AlimentoTable + " (Nome, Humidade_perc, Energia_kcal, Proteina_g, Lipidos_g, Colestrol_mg, HidratosDeCarb_g, FibraAlimentar_g, Categoria) values(?,?,?,?,?,?,?,?,?)";
@@ -224,6 +226,7 @@ public class AlimentoCreate extends javax.swing.JFrame {
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            added = false;
         } finally {
             if (st != null) {
                 try {
@@ -240,7 +243,10 @@ public class AlimentoCreate extends javax.swing.JFrame {
                 }
             }
         }
-        
+        if (added)
+            JOptionPane.showMessageDialog(this, "Alimento criado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "O alimento não for criado!");
         setVisible(false);
         dispose();
     }//GEN-LAST:event_saveBtnActionPerformed

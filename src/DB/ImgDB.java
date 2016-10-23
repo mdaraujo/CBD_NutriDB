@@ -44,7 +44,7 @@ public class ImgDB {
     }
  
     /* Inserir prato */
-    public void insertImage(String img) throws SQLException, FileNotFoundException {
+    public boolean insertImage(String img) throws SQLException, FileNotFoundException {
         int len;
         String query;
         Connection dbConnection = null;
@@ -72,6 +72,7 @@ public class ImgDB {
  
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (pstmt != null) {
@@ -82,6 +83,7 @@ public class ImgDB {
                     dbConnection.close();
             }
         }
+        return true;
     }
     
     /* obter a imagem de um dado prato  */
@@ -115,7 +117,7 @@ public class ImgDB {
     }
     
     /* eliminar prato */
-    public void deletePratoImage(int id) throws SQLException {
+    public boolean deletePratoImage(int id) throws SQLException {
         String query;
         Connection dbConnection = null;
         Statement st = null;
@@ -123,10 +125,11 @@ public class ImgDB {
             dbConnection = getDBConnection();
             query = "DELETE FROM "+Contract.KEYVALUETable + " WHERE ID="+id;
             st = dbConnection.createStatement();
-            st.execute(query);    
+            st.execute(query);      
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -137,10 +140,11 @@ public class ImgDB {
                     dbConnection.close();
             }
         }
+        return true;
     }
 
     /* atualizar pratos */
-    public void updatePratoImg(int idPrato, String img) throws SQLException, FileNotFoundException {
+    public boolean updatePratoImg(int idPrato, String img) throws SQLException, FileNotFoundException {
         String query;
         Connection dbConnection = null;
         PreparedStatement st = null;
@@ -155,11 +159,12 @@ public class ImgDB {
                 st = dbConnection.prepareStatement(query);
                 st.setBinaryStream(1, fis, len); 
                 st.setInt(2, idPrato);
-                st.executeQuery();
+                st.executeUpdate();
             }
                          
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
 
             if (st != null) {
@@ -170,5 +175,6 @@ public class ImgDB {
                 dbConnection.close();
             }
         }
+        return true;
     }
 }

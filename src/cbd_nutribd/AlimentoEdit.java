@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +29,7 @@ public class AlimentoEdit extends javax.swing.JFrame {
     public AlimentoEdit(int id) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        setTitle("Detalhes do alimento");
         this.id = id;
 
         fillInputs();
@@ -243,6 +244,7 @@ public class AlimentoEdit extends javax.swing.JFrame {
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
         enableInputs();
+        setTitle("Editar alimento");
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
@@ -261,15 +263,19 @@ public class AlimentoEdit extends javax.swing.JFrame {
             fillInputs();
         }
         
-        
+        boolean update = true;
         RelationalDB relDB = new RelationalDB();
         try {
-            relDB.updateAlimento(alimento);
+            update = relDB.updateAlimento(alimento);
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
+        if (update)
+            JOptionPane.showMessageDialog(this, "O alimento foi alterado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "O alimento não foi alterado!");
         fillInputs();
+        setTitle("Detalhes do alimento");
     }//GEN-LAST:event_saveBtnActionPerformed
 
     /**
