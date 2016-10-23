@@ -202,6 +202,8 @@ public class DocDB {
                     dbConnection.close();
             }
         }
+        File file = new File("res\\doc\\doc" + id + ".xml");
+        file.delete();
         return true;
     }
     

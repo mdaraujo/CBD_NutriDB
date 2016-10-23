@@ -32,6 +32,8 @@ public class InsertPlate extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Criar prato");
+        this.setLocationRelativeTo(null);
+        this.pack();
         listaIngredientes.setFont( new Font("monospaced", Font.PLAIN, 12) );
         atualizar.setVisible(false);
         eliminar.setVisible(false);
@@ -275,15 +277,16 @@ public class InsertPlate extends javax.swing.JFrame {
 
     private void listaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaIngredientesMouseClicked
         if (evt.getClickCount() == 1) {
-            int i = -1;
-            String p = listaIngredientes.getSelectedValue();
-            String[] split = p.split("    ");
-            index = ingredientes.indexOf(split[0]);
-            IngredienteTXT.setText(split[0]);
-            QuantidadeTXT.setText(quantidades.get(index));
-            atualizar.setVisible(true);
-            eliminar.setVisible(true);
-            AdicionarIngrediente.setVisible(false);
+            try {
+                String p = listaIngredientes.getSelectedValue();
+                String[] split = p.split("    ");
+                index = ingredientes.indexOf(split[0]);
+                IngredienteTXT.setText(split[0]);
+                QuantidadeTXT.setText(quantidades.get(index));
+                atualizar.setVisible(true);
+                eliminar.setVisible(true);
+                AdicionarIngrediente.setVisible(false);
+            }catch(NullPointerException ex) {}
         }
     }//GEN-LAST:event_listaIngredientesMouseClicked
 
