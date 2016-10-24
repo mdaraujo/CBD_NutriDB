@@ -30,6 +30,8 @@ public class AlimentoEdit extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Detalhes do alimento");
+        this.setLocationRelativeTo(null);
+        this.pack();
         this.id = id;
 
         fillInputs();
@@ -69,6 +71,8 @@ public class AlimentoEdit extends javax.swing.JFrame {
         colestrolInput.setEditable(false);
         hidratosInput.setEditable(false);
         fibraInput.setEditable(false);
+        saveBtn.setVisible(false);
+        editBtn.setVisible(true);
     }
     
     private void enableInputs() {
@@ -81,6 +85,8 @@ public class AlimentoEdit extends javax.swing.JFrame {
         colestrolInput.setEditable(true);
         hidratosInput.setEditable(true);
         fibraInput.setEditable(true);
+        saveBtn.setVisible(true);
+        editBtn.setVisible(false);
     }
 
     /**

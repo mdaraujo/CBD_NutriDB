@@ -28,6 +28,8 @@ public class UpdateDoc extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Alterar Preparação");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
     }
     
     public UpdateDoc(Prato plate) throws SQLException {

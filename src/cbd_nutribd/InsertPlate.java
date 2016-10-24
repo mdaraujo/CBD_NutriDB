@@ -121,7 +121,7 @@ public class InsertPlate extends javax.swing.JFrame {
 
         jLabel6.setText("Adicionar Imagem");
 
-        imagemDiretorio.setText("Nada alterado");
+        imagemDiretorio.setText("Nada adicionado");
 
         eliminar.setText("Eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {

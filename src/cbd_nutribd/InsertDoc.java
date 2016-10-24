@@ -32,6 +32,8 @@ public class InsertDoc extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Inserir Prato");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
     }
 
     /**

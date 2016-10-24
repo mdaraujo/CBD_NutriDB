@@ -30,6 +30,8 @@ public class ViewPreparacao extends javax.swing.JFrame {
     public ViewPreparacao() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
         CozinhaTXT.setEditable(false);
         DificuldadeTXT.setEditable(false);
         DoseTXT.setEditable(false);

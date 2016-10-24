@@ -43,6 +43,8 @@ public class ViewPlate extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Detalhes do prato");
+        this.setLocationRelativeTo(null);
+        this.pack();
         listaIngredientes.setFont( new Font("monospaced", Font.PLAIN, 12) );
         atualizar.setVisible(false);
         eliminar.setVisible(false);
@@ -56,6 +58,10 @@ public class ViewPlate extends javax.swing.JFrame {
         tituloTXT.setEditable(false);
         guardarAlteracoes.setVisible(false);
         updatePreparacao.setVisible(false);
+        jLabel3.setVisible(false);
+        jLabel4.setVisible(false);
+        QuantidadeTXT.setVisible(false);
+        IngredienteTXT.setVisible(false);
     }
     
     public ViewPlate(int idPrato) {
@@ -340,18 +346,30 @@ public class ViewPlate extends javax.swing.JFrame {
     }//GEN-LAST:event_atualizarActionPerformed
 
     private void listaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaIngredientesMouseClicked
-        if (evt.getClickCount() == 1) {
+        if (evt.getClickCount() == 1 && IngredienteTXT.isEditable()) {
             int i = -1;
             String p = listaIngredientes.getSelectedValue();
             String[] split = p.split("     ");
             index = ingredientes.indexOf(split[0]);
             IngredienteTXT.setText(split[0]);
             QuantidadeTXT.setText(quantidades.get(index));
-            if (IngredienteTXT.isEditable()) {
-                atualizar.setVisible(true);
-                eliminar.setVisible(true);
-                AdicionarIngrediente.setVisible(false);
+            atualizar.setVisible(true);
+            eliminar.setVisible(true);
+            AdicionarIngrediente.setVisible(false);
+        }
+        else if (evt.getClickCount() == 2) {
+            String p = listaIngredientes.getSelectedValue();
+            String[] split = p.split("     ");
+            index = ingredientes.indexOf(split[0]);
+            RelationalDB relDB = new RelationalDB();
+            int idIng = 0;
+            try {
+                idIng = relDB.getIdAlimento(ingredientes.get(index));
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewPlate.class.getName()).log(Level.SEVERE, null, ex);
             }
+            AlimentoEdit edit = new AlimentoEdit(idIng);
+            edit.setVisible(true);
         }
     }//GEN-LAST:event_listaIngredientesMouseClicked
 
@@ -387,6 +405,10 @@ public class ViewPlate extends javax.swing.JFrame {
         updatePreparacao.setVisible(false);
         preparacao.setVisible(true);
         EditarPrato.setVisible(true);
+        jLabel3.setVisible(false);
+        jLabel4.setVisible(false);
+        QuantidadeTXT.setVisible(false);
+        IngredienteTXT.setVisible(false);
         if (update)
             JOptionPane.showMessageDialog(this, "Prato alterado com sucesso!");
         else
@@ -514,6 +536,10 @@ public class ViewPlate extends javax.swing.JFrame {
         preparacao.setVisible(false);
         updatePreparacao.setVisible(true);
         EditarPrato.setVisible(false);
+        jLabel3.setVisible(true);
+        jLabel4.setVisible(true);
+        QuantidadeTXT.setVisible(true);
+        IngredienteTXT.setVisible(true);
     }
 
     private boolean updatePrato() throws SQLException, FileNotFoundException {

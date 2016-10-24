@@ -35,8 +35,8 @@ public class PratoPorAlimentos extends javax.swing.JFrame {
     public PratoPorAlimentos() {
         initComponents();
         this.setTitle("Procurar Pratos por Alimentos");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         RelationalDB relational = new RelationalDB();
         try {
             ingredientes = relational.getIngredientes("");
@@ -248,11 +248,8 @@ public class PratoPorAlimentos extends javax.swing.JFrame {
             
         }
         
-        try {
-            idsPratos = graph.pratoByIngredientes(idsIngredientes);
-        } catch (SQLException ex) {
-            Logger.getLogger(PratoPorAlimentos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        idsPratos = graph.pratoByIngredientes(idsIngredientes);
+
         
         for(Integer x:idsPratos){
             try {

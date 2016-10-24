@@ -36,9 +36,10 @@ public class PratoSearch extends javax.swing.JFrame {
     public PratoSearch() {
         initComponents();
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
         setTitle("Listagem dos Pratos");
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         searchBtn.doClick();
     }
 

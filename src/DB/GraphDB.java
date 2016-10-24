@@ -216,40 +216,52 @@ public class GraphDB {
      * @return uma lista com os id's dos pratos que contêem todos os
      * ingredientes
      */
-    public List<Integer> pratoByIngredientes(List<Integer> ingredientes) throws SQLException {
+    public List<Integer> pratoByIngredientes(List<Integer> ingredientes) {
+        List<Integer> todosIds = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
+        Connection conn = getDBConnection();
 
-        Connection dbConnection = null;
-        Statement st = null;
         try {
-            dbConnection = getDBConnection();
+            Statement st;
             ResultSet rs;
-            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            String query = "select * from Prato_Alimentos where idIngrediente = ";
-            for (Integer x : ingredientes) {
-                rs = st.executeQuery(query + x.toString());
+            st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            String query = "select * from Prato_Alimentos ";
 
-                
-                while (rs.next()) {
-                    ids.add(Integer.parseInt(rs.getString("idPrato")));
-                    
+            rs = st.executeQuery(query);
+            
+            int pratoId = -1, ingredienteId;
+            int pratoIdAnterior = -1;
+           
+            List<Integer> idsIngredientes = new ArrayList<>();
+            
+            while (rs.next()) {
+                pratoId = Integer.parseInt(rs.getString("idPrato"));
+                ingredienteId = Integer.parseInt(rs.getString("idIngrediente"));
+
+                if (pratoId == pratoIdAnterior) {
+                    idsIngredientes.add(ingredienteId);
+                    pratoIdAnterior = pratoId;
+
+                } else {
+
+                    if (idsIngredientes.containsAll(ingredientes)) {
+                        ids.add(pratoId);
+                    }
+                    idsIngredientes = new ArrayList<>();
+                    pratoIdAnterior = pratoId;
+                    idsIngredientes.add(ingredienteId);
+
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            
-        } finally {
-
-            if (st != null) {
-                    st.close();
+            if (idsIngredientes.containsAll(ingredientes)) {
+                ids.add(pratoId);
             }
 
-            if (dbConnection != null) {
-                    dbConnection.close();
-            }
+        } catch (SQLException ex) {
         }
+
         return ids;
+
     }
     
     /* obter os ingredientes e respetiva quantidade de um dado prato */

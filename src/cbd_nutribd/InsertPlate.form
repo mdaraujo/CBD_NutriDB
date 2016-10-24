@@ -232,7 +232,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="imagemDiretorio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nada alterado"/>
+        <Property name="text" type="java.lang.String" value="Nada adicionado"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="eliminar">

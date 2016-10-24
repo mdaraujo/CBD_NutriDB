@@ -26,6 +26,8 @@ public class AlimentoCreate extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Criar Alimento");
+        this.setLocationRelativeTo(null);
+        this.pack();
     }
 
     /**

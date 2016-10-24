@@ -9,7 +9,9 @@ import DB.DocDB;
 import DB.GraphDB;
 import DB.RelationalDB;
 import Data.Prato;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +37,10 @@ public class AlimentoSearch extends javax.swing.JFrame {
     
     public AlimentoSearch() {
         initComponents();
+        this.setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        list.setFont(new Font("monospaced", Font.PLAIN, 12));
         setTitle("Listagem dos Alimentos");
+        list.setFont(new Font("monospaced", Font.PLAIN, 12));
         idx = -1;
         searchBtn.doClick();
     }
@@ -234,7 +237,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
                         .addComponent(deleteBtn)))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)

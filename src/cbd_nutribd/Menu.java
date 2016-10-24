@@ -19,6 +19,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
         setTitle("NutriDB");
+        this.setLocationRelativeTo(null);
     }
 
     /**
