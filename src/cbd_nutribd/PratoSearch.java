@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,6 +36,7 @@ public class PratoSearch extends javax.swing.JFrame {
     public PratoSearch() {
         initComponents();
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
         setTitle("Listagem dos Pratos");
         searchBtn.doClick();

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,6 +35,7 @@ public class PratoPorAlimentos extends javax.swing.JFrame {
     public PratoPorAlimentos() {
         initComponents();
         this.setTitle("Procurar Pratos por Alimentos");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         RelationalDB relational = new RelationalDB();
         try {

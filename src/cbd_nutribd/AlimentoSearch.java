@@ -35,7 +35,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
     
     public AlimentoSearch() {
         initComponents();
-        
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         list.setFont(new Font("monospaced", Font.PLAIN, 12));
         setTitle("Listagem dos Alimentos");
         idx = -1;
