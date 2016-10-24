@@ -216,46 +216,39 @@ public class GraphDB {
      * @return uma lista com os id's dos pratos que contêem todos os
      * ingredientes
      */
-    public List<Integer> pratoByIngredientes(List<Integer> ingredientes) {
+    public List<Integer> pratoByIngredientes(List<Integer> ingredientes) throws SQLException {
         List<Integer> ids = new ArrayList<>();
 
-        Connection conn = getDBConnection();
-
+        Connection dbConnection = null;
+        Statement st = null;
         try {
-            Statement st;
+            dbConnection = getDBConnection();
             ResultSet rs;
- 
-            String query = "select * from Prato_Alimentos";
-            st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            rs = st.executeQuery(query);
-            
-            int idPrato=0, idIng;
-            int idAnterior = -1;
-            List<Integer> tempIdsIng = new ArrayList<>();
-            boolean temConteudo=false;
-            while (rs.next()) {
-                temConteudo=true;
-                idPrato = Integer.parseInt(rs.getString("idPrato"));
-                idIng = Integer.parseInt(rs.getString("idIngrediente"));
+            st = dbConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            String query = "select * from Prato_Alimentos where idIngrediente = ";
+            for (Integer x : ingredientes) {
+                rs = st.executeQuery(query + x.toString());
 
-                if (idPrato != idAnterior) {
-                    idAnterior = idPrato;
-                    if (tempIdsIng.containsAll(ingredientes)) {
-                        ids.add(idPrato);
-                    }
-                } else {
-                    tempIdsIng.add(idIng);
+                
+                while (rs.next()) {
+                    ids.add(Integer.parseInt(rs.getString("idPrato")));
+                    
                 }
             }
-            if (temConteudo && tempIdsIng.containsAll(ingredientes)) {
-                ids.add(idPrato);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        } finally {
+
+            if (st != null) {
+                    st.close();
             }
 
-            conn.close();
-        } catch (SQLException ex) {
-
+            if (dbConnection != null) {
+                    dbConnection.close();
+            }
         }
-        
         return ids;
     }
     

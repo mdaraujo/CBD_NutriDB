@@ -520,6 +520,47 @@ public class RelationalDB {
         }
         return true;
     }
+
+    /**
+     * 
+     * @param ingrediente
+     * @return lista de ingredientes (string) que contêem o nome do ingrediente 
+     * (dado como parametro)
+     */
+    public List<String> getIngredientes(String ingrediente) throws SQLException{
+        List<String> ingredientes = new ArrayList<>();
+        
+        Connection dbConnection = null;
+        Statement st = null;
+        
+        try {
+            
+            dbConnection = getDBConnection();
+            st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT Nome FROM " + Contract.AlimentoTable+" WHERE Nome LIKE '%"+ingrediente+"%'";
+            ResultSet rs = st.executeQuery(query);
+            
+            
+            while (rs.next()) {
+                ingredientes.add(rs.getString("Nome"));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+
+            if (st != null) {
+                st.close();
+               
+            }
+
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+        return ingredientes;
+    }
     
     // Not Used
     public DefaultListModel selectPratosLM(String selectSQL) throws SQLException {
