@@ -83,9 +83,10 @@ public class AlimentoSearch extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        categoriaInput = new javax.swing.JTextField();
         createBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
+        categoriaInput = new javax.swing.JComboBox<>();
+        resetBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +139,15 @@ public class AlimentoSearch extends javax.swing.JFrame {
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
+            }
+        });
+
+        categoriaInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "*", "Cereais e derivados", "Verduras, hortaliças e derivados", "Frutas e derivados", "Gorduras e óleos", "Pescados e frutos do mar", "Carnes e derivados", "Leite e derivados", "Bebidas", "Produtos açucarados", "Miscelâneas", "Outros alimentos industrializados", "Leguminosas e derivados", "Nozes e sementes" }));
+
+        resetBtn.setText("Reset");
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
             }
         });
 
@@ -196,10 +206,10 @@ public class AlimentoSearch extends javax.swing.JFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(categoriaInput))
+                                .addComponent(categoriaInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -213,31 +223,38 @@ public class AlimentoSearch extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(195, 195, 195)
                                 .addComponent(deleteBtn)))
-                        .addGap(0, 421, Short.MAX_VALUE)))
+                        .addGap(82, 82, 82)
+                        .addComponent(resetBtn)
+                        .addGap(0, 278, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel11)
-                                .addComponent(categoriaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(createBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteBtn)))
-                .addGap(25, 25, 25)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel11)
+                                        .addComponent(categoriaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteBtn))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(resetBtn)))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,8 +309,8 @@ public class AlimentoSearch extends javax.swing.JFrame {
 
         String query = "SELECT * FROM Alimentos WHERE Nome LIKE '%" + nomeInput.getText() + "%'";
         
-        if (!categoriaInput.getText().isEmpty()) {
-            query += "AND Categoria LIKE '%" + categoriaInput.getText() + "%' ";
+        if (!categoriaInput.getSelectedItem().toString().equals("*")) {
+            query += "AND Categoria LIKE '%" + categoriaInput.getSelectedItem().toString() + "%' ";
         }
         
         if (!humidadeMin.getText().isEmpty()) {
@@ -410,6 +427,35 @@ public class AlimentoSearch extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "É necessario selecionar um alimento para o eliminar!");
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        // TODO add your handling code here:
+        
+        nomeInput.setText("");
+        categoriaInput.setSelectedIndex(0);
+        
+        humidadeMin.setText("");
+        humidadeMax.setText("");
+        
+        energiaMin.setText("");
+        energiaMax.setText("");
+        
+        proteinaMin.setText("");
+        proteinaMax.setText("");
+        
+        lipidosMin.setText("");
+        lipidosMax.setText("");
+        
+        colestrolMin.setText("");
+        colestrolMax.setText("");
+        
+        hidratosMin.setText("");
+        hidratosMax.setText("");
+        
+        fibraMin.setText("");
+        fibraMax.setText("");
+        
+    }//GEN-LAST:event_resetBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -446,7 +492,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField categoriaInput;
+    private javax.swing.JComboBox<String> categoriaInput;
     private javax.swing.JTextField colestrolMax;
     private javax.swing.JTextField colestrolMin;
     private javax.swing.JButton createBtn;
@@ -477,6 +523,7 @@ public class AlimentoSearch extends javax.swing.JFrame {
     private javax.swing.JTextField nomeInput;
     private javax.swing.JTextField proteinaMax;
     private javax.swing.JTextField proteinaMin;
+    private javax.swing.JButton resetBtn;
     private javax.swing.JButton searchBtn;
     // End of variables declaration//GEN-END:variables
 
