@@ -273,12 +273,14 @@ public class PratoPorAlimentos extends javax.swing.JFrame {
     }//GEN-LAST:event_listPesquisaMouseClicked
 
     private void listPratosEncontradosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listPratosEncontradosMouseClicked
-        int index = listPratosEncontrados.getSelectedIndex();
-        int idPratoSelected = idsPratos.get(index);
-        if (evt.getClickCount() == 2 && idPratoSelected != -1) {
-            ViewPlate view = new ViewPlate(idPratoSelected);
-            view.setVisible(true);
-        }
+        try {
+            int index = listPratosEncontrados.getSelectedIndex();
+            int idPratoSelected = idsPratos.get(index);
+            if (evt.getClickCount() == 2 && idPratoSelected != -1) {
+                ViewPlate view = new ViewPlate(idPratoSelected);
+                view.setVisible(true);
+            }
+        }catch(ArrayIndexOutOfBoundsException ex) {}
     }//GEN-LAST:event_listPratosEncontradosMouseClicked
 
     private void ApagarPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApagarPesquisaActionPerformed

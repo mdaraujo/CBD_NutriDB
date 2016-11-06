@@ -47,32 +47,20 @@ public class UpdateDoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel4 = new javax.swing.JLabel();
-        DoseTXT = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        TempoTXT = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        DificuldadeTXT = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         editar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         PreparacaoTXT = new javax.swing.JTextArea();
+        DificuldadeComboBox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         CozinhaTXT = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        DosesSpinner = new javax.swing.JSpinner();
+        TempoComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel4.setText("Doses");
-
-        jLabel5.setText("Tempo");
-
-        jLabel6.setText("Dificuldade");
-
-        DificuldadeTXT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DificuldadeTXTActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Preparação");
 
@@ -87,7 +75,17 @@ public class UpdateDoc extends javax.swing.JFrame {
         PreparacaoTXT.setRows(5);
         jScrollPane1.setViewportView(PreparacaoTXT);
 
+        DificuldadeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fácil", "Médio", "Difícil" }));
+
         jLabel3.setText("Tipo de Cozinha");
+
+        jLabel4.setText("Doses");
+
+        jLabel5.setText("Tempo");
+
+        jLabel6.setText("Dificuldade");
+
+        TempoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fácil", "Médio", "Difícil" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,19 +97,21 @@ public class UpdateDoc extends javax.swing.JFrame {
                     .addComponent(editar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(CozinhaTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                                .addComponent(DoseTXT)
-                                .addComponent(TempoTXT)
-                                .addComponent(DificuldadeTXT)))
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(CozinhaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DosesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(DificuldadeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TempoComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -125,19 +125,19 @@ public class UpdateDoc extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(CozinhaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(DoseTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(DosesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(TempoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(TempoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(DificuldadeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -145,20 +145,15 @@ public class UpdateDoc extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DificuldadeTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DificuldadeTXTActionPerformed
-
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         DocDB docDB = new DocDB();
         boolean update = true;
-        if (!(plate.getDificuldade().equals(DificuldadeTXT.getText())) || !(plate.getTempo().equals(TempoTXT.getText())) 
-                || (plate.getDoses() != Integer.parseInt(DoseTXT.getText())) || !(plate.getCozinha().equals(CozinhaTXT.getText()))
+        if (!(plate.getDificuldade().equals(DificuldadeComboBox.getSelectedItem().toString())) || !(plate.getTempo().equals(TempoComboBox.getSelectedItem().toString())) 
+                || (plate.getDoses() != Integer.parseInt(DosesSpinner.getValue().toString())) || !(plate.getCozinha().equals(CozinhaTXT.getText()))
                 || !(plate.getPreparacao().equals(PreparacaoTXT.getText()))) {
             try {
                 updatePlate();
                 update = docDB.updatePratoDoc(plate);
-                System.out.println("Update: "+update);
             } catch (SQLException | FileNotFoundException ex) {
                 Logger.getLogger(UpdateDoc.class.getName()).log(Level.SEVERE, null, ex);
             } 
@@ -207,10 +202,10 @@ public class UpdateDoc extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CozinhaTXT;
-    private javax.swing.JTextField DificuldadeTXT;
-    private javax.swing.JTextField DoseTXT;
+    private javax.swing.JComboBox<String> DificuldadeComboBox;
+    private javax.swing.JSpinner DosesSpinner;
     private javax.swing.JTextArea PreparacaoTXT;
-    private javax.swing.JTextField TempoTXT;
+    private javax.swing.JComboBox<String> TempoComboBox;
     private javax.swing.JButton editar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -224,18 +219,18 @@ public class UpdateDoc extends javax.swing.JFrame {
         DocDB docDB = new DocDB();
         Prato prato = docDB.getPrato(plate.getID());
         plate = prato;
-        DificuldadeTXT.setText(prato.getDificuldade());
-        DoseTXT.setText(Integer.toString(prato.getDoses()));
+        DificuldadeComboBox.setSelectedItem(plate.getDificuldade());
+        DosesSpinner.setValue(prato.getDoses());
         CozinhaTXT.setText(prato.getCozinha());
-        TempoTXT.setText(prato.getTempo());
+        TempoComboBox.setSelectedItem(prato.getTempo());
         PreparacaoTXT.setText(prato.getPreparacao());
     }
 
     private void updatePlate() {
-        plate.setDificuldade(DificuldadeTXT.getText());
-        plate.setDoses(Integer.parseInt(DoseTXT.getText()));
+        plate.setDificuldade(DificuldadeComboBox.getSelectedItem().toString());
+        plate.setDoses(Integer.parseInt(DosesSpinner.getValue().toString()));
         plate.setCozinha(CozinhaTXT.getText());
-        plate.setTempo(TempoTXT.getText());
+        plate.setTempo(TempoComboBox.getSelectedItem().toString());
         plate.setPreparacao(PreparacaoTXT.getText());
 
     }

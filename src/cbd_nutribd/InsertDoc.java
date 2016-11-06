@@ -51,12 +51,12 @@ public class InsertDoc extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         CozinhaTXT = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        DoseTXT = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        TempoTXT = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        DificuldadeTXT = new javax.swing.JTextField();
         AdicionarPrato = new javax.swing.JButton();
+        DosesSpinner = new javax.swing.JSpinner();
+        TempoComboBox = new javax.swing.JComboBox<>();
+        DificuldadeComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,18 +74,16 @@ public class InsertDoc extends javax.swing.JFrame {
 
         jLabel6.setText("Dificuldade");
 
-        DificuldadeTXT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DificuldadeTXTActionPerformed(evt);
-            }
-        });
-
         AdicionarPrato.setText("Adicionar Prato");
         AdicionarPrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AdicionarPratoActionPerformed(evt);
             }
         });
+
+        TempoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fácil", "Médio", "Difícil" }));
+
+        DificuldadeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fácil", "Médio", "Difícil" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,23 +92,27 @@ public class InsertDoc extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(AdicionarPrato)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel4)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6))
+                                .addComponent(jLabel5))
                             .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(CozinhaTXT, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                                .addComponent(DoseTXT)
-                                .addComponent(TempoTXT)
-                                .addComponent(DificuldadeTXT)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(CozinhaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DosesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(DificuldadeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 142, Short.MAX_VALUE)
+                                    .addComponent(TempoComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addComponent(jLabel2)))
                 .addContainerGap(98, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AdicionarPrato)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,29 +125,25 @@ public class InsertDoc extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(CozinhaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(DoseTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(DosesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(TempoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(TempoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(DificuldadeTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(DificuldadeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(AdicionarPrato)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void DificuldadeTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DificuldadeTXTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DificuldadeTXTActionPerformed
 
     private void AdicionarPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarPratoActionPerformed
         GraphDB graph = new GraphDB();
@@ -212,10 +210,10 @@ public class InsertDoc extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AdicionarPrato;
     private javax.swing.JTextField CozinhaTXT;
-    private javax.swing.JTextField DificuldadeTXT;
-    private javax.swing.JTextField DoseTXT;
+    private javax.swing.JComboBox<String> DificuldadeComboBox;
+    private javax.swing.JSpinner DosesSpinner;
     private javax.swing.JTextArea PreparacaoTXT;
-    private javax.swing.JTextField TempoTXT;
+    private javax.swing.JComboBox<String> TempoComboBox;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -228,9 +226,9 @@ public class InsertDoc extends javax.swing.JFrame {
         String nome = "doc"+id;
         String preparacao = PreparacaoTXT.getText();
         String cozinha = CozinhaTXT.getText();
-        String dificuldade = DificuldadeTXT.getText();
-        String tempo = TempoTXT.getText();
-        String dose = DoseTXT.getText();
+        String dificuldade = DificuldadeComboBox.getSelectedItem().toString();
+        String tempo = TempoComboBox.getSelectedItem().toString();
+        String dose = DosesSpinner.getValue().toString();
         CreateDocumentXML cdxml = new CreateDocumentXML(nome);
         try {
             cdxml.createDocument(id, preparacao, cozinha, dificuldade, tempo, dose);
